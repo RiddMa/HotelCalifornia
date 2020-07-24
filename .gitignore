@@ -57,3 +57,14 @@ local.properties
 .cache-main
 .scala_dependencies
 .worksheet
+
+# Maven #
+target/
+
+# IDEA #
+.idea/
+*.iml
+
+# Eclipse #
+.settings/
+
