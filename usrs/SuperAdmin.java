@@ -3,6 +3,7 @@ package usrs;
 /**
  * 超级管理员类，继承Admin类
  * 超级管理员默认为root，密码root
+ * @author Travis
  */
 public class SuperAdmin extends Admin {
     /**

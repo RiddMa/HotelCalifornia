@@ -1,5 +1,9 @@
 package usrs;
 
+/**
+ * 管理员类
+ * @author  Travis
+ */
 public class Admin extends User {
     /**
      * 构造方法

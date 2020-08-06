@@ -2,6 +2,10 @@ package usrs;
 
 import java.util.Date;
 
+/**
+ * 用户类
+ * @author Travis
+ */
 public class User {
     protected String userName;
     protected String passWord;
