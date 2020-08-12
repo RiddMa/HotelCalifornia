@@ -24,7 +24,7 @@ public abstract class TransportLevel {
     public void transport(String str) {
         // TODO
         try {
-            bw.write(str + "\n");
+            bw.write(str);
             bw.flush();
         } catch (IOException e) {
             e.printStackTrace();

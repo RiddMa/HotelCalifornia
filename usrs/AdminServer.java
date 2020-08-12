@@ -4,7 +4,7 @@ package usrs;
  * 管理员类 client端
  * @author  Travis
  */
-public class AdminServer extends User {
+public class AdminServer extends UserServer {
     /**
      * 构造方法
      *

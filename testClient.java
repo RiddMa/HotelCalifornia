@@ -13,7 +13,7 @@ public class testClient {
         while(i != 5){
             i++;
             String str = sc.nextLine();
-            b.transport(str);
+            b.transport(str + "\n");
             //System.out.println("server:" + b.accept());
         }
         b.close();
