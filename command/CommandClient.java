@@ -20,9 +20,10 @@ public class CommandClient extends Command {
      */
     boolean login() {
         //TODO: 需要增加用户名的正则检查
-        if(args.length != 3) return false;
+        //String pattern = "^[^0-9][\\w_]{5,9}$";
+        if (args.length != 3) return false;
         tc.transport(command + "\n");
-        return tc.accept() == "success";
+        return tc.accept().equals("success");
     }
 
     /**
@@ -32,7 +33,7 @@ public class CommandClient extends Command {
      */
     boolean logout() {
         tc.transport("logout");
-        return tc.accept() == "success";
+        return tc.accept().equals("success");
     }
 
     /**
@@ -43,7 +44,7 @@ public class CommandClient extends Command {
     boolean reserveRoom() {
         if (Integer.parseInt(args[1]) > Integer.parseInt(args[2])) return false;
         tc.transport(command);
-        return tc.accept() == "success";
+        return tc.accept().equals("success");
     }
 
     /**
@@ -63,9 +64,9 @@ public class CommandClient extends Command {
      * @return 房号是否重复，不重复返回{@code true},否则返回{@code false}
      */
     boolean addRoom() {
-        if(args.length != 2) return false;
+        if (args.length != 2) return false;
         tc.transport(command);
-        return tc.accept() == "success";
+        return tc.accept().equals("success");
     }
 
     /**
@@ -83,9 +84,9 @@ public class CommandClient extends Command {
      * 超级管理员创建管理员
      */
     boolean createAdmin() {
-        if(args.length != 3) return false;
+        if (args.length != 3) return false;
         tc.transport(command);
-        return tc.accept() == "success";
+        return tc.accept().equals("success");
     }
 
     /**
@@ -94,23 +95,24 @@ public class CommandClient extends Command {
      * @return 删除成果返回true，失败（不存在此用户）返回false
      */
     boolean delete() {
-        if(args.length != 2) return false;
+        if (args.length != 2) return false;
         tc.transport(command);
-        return tc.accept() == "success";
+        return tc.accept().equals("success");
     }
 
     /**
      * 创建用户
-     * @return
+     *
+     * @return 创建是否成功
      */
     boolean create() {
-        if(args.length != 3) return false;
+        if (args.length != 3) return false;
         tc.transport(command);
-        return tc.accept() == "success";
+        return tc.accept().equals("success");
     }
 
     public boolean parse() {
-        switch(args[0]){
+        switch (args[0]) {
             case "LOGIN":
                 return login();
             case "LOGOUT":
@@ -129,6 +131,8 @@ public class CommandClient extends Command {
                 return addRoom();
             case "DELETE":
                 return delete();
+            case "CREATE":
+                return create();
         }
         return false;
     }
