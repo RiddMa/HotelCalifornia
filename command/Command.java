@@ -13,7 +13,8 @@ public class Command {
     protected String[] args;
     private static final List<String> commandset = Arrays.asList("LOGIN", "LOGOUT", "RESERVEROOM", "CREATE",
             "SHOWRESERVATION", "ADDROOM", "SHOWRESERVATIONS", "CREATEADMIN", "DELETE");
-    private static final List<String> userCommand = Arrays.asList("LOGIN", "LOGOUT", "RESERVEROOM", "CREATE",
+    private static final List<String> defaultCommand = Arrays.asList("LOGIN");
+    private static final List<String> userCommand = Arrays.asList("LOGOUT", "RESERVEROOM", "CREATE",
             "SHOWRESERVATION");
     private static final List<String> adminCommand = Arrays.asList("ADDROOM", "SHOWRESERVATIONS");
     private static final List<String> superadminCommand = Arrays.asList("CREATEADMIN", "DELETE");
@@ -52,6 +53,9 @@ public class Command {
     public boolean isFitType(String type) {
         boolean flag = false;
         switch (args[0]){
+            case "default":
+                flag = (type.equals(defaultCommand.get(0)));
+                break;
             case "user":
                 flag = userCommand.contains(args[0]);
                 break;

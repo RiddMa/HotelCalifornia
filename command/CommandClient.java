@@ -15,12 +15,49 @@ import java.util.List;
 public class CommandClient extends Command {
     private final TransportClient tc;
     private String type;
-    private static final List<String> typeList = Arrays.asList("user", "admin", "superadmin");
+    private static final List<String> typeList = Arrays.asList("default","user", "admin", "superadmin");
 
     public CommandClient(String str, TransportClient tc) {
         super(str);
         this.tc = tc;
-        type = "user";
+        type = "default";//默认为default，只有login权限
+    }
+
+    /**
+     * 解析命令
+     * @param str 命令
+     * @return boolean 返回命令是否合法和是否成功
+     */
+    public boolean parse(String str) {
+        setArgs(str);
+        if(!isLegal()) return false;//不合法则直接返回false
+        switch (args[0]) {
+            case "LOGIN":
+                return login();
+            case "LOGOUT":
+                return logout();
+            case "RESERVEROOM":
+                return reserveRoom();
+            case "SHOWRESERVATIONS":
+                showReservations();
+                return true;
+            case "SHOWRESERVATION":
+                showReservation();
+                return true;
+            case "CREATEADMIN":
+                return createAdmin();
+            case "ADDROOM":
+                return addRoom();
+            case "DELETE":
+                return delete();
+            case "CREATE":
+                return create();
+        }
+        return false;
+    }
+
+    public String getType() {
+        return type;
     }
 
     /**
@@ -126,40 +163,5 @@ public class CommandClient extends Command {
         return tc.accept().equals("success");
     }
 
-    /**
-     * 解析命令
-     * @param str 命令
-     * @return boolean 返回命令是否合法和是否成功
-     */
-    public boolean parse(String str) {
-        setArgs(str);
-        if(!isLegal()) return false;//不合法则直接返回false
-        switch (args[0]) {
-            case "LOGIN":
-                return login();
-            case "LOGOUT":
-                return logout();
-            case "RESERVEROOM":
-                return reserveRoom();
-            case "SHOWRESERVATIONS":
-                showReservations();
-                return true;
-            case "SHOWRESERVATION":
-                showReservation();
-                return true;
-            case "CREATEADMIN":
-                return createAdmin();
-            case "ADDROOM":
-                return addRoom();
-            case "DELETE":
-                return delete();
-            case "CREATE":
-                return create();
-        }
-        return false;
-    }
 
-    public String getType() {
-        return type;
-    }
 }
