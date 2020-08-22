@@ -105,7 +105,7 @@ public class CommandClient extends Command {
     void showReservation() {
         String str;
         tc.transport(command + "\n");
-        while ((str = tc.accept()) != null) {
+        while (!(str = tc.accept()).equals("#")) {
             System.out.println("> " + str);
         }
     }
@@ -127,7 +127,7 @@ public class CommandClient extends Command {
     void showReservations() {
         String str;
         tc.transport(command + "\n");
-        while ((str = tc.accept()) != null) {
+        while (!(str = tc.accept()).equals("#")) {
             System.out.println("> " + str);
         }
     }
