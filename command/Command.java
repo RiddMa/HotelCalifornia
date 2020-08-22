@@ -30,6 +30,7 @@ public class Command {
     }
 
     public void setArgs(String str) {
+        command = str;
         this.args = str.split(" ");
         args[0] = args[0].toUpperCase();
     }

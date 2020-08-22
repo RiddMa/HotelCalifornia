@@ -7,6 +7,10 @@ import java.util.List;
 
 /**
  * 用于接收用户端的命令，并传输到传输层
+ * 客户端使用时需要先建立TransportClient实例，再将其作为参数建立CommandClient实例
+ * 使用时只需要使用parse()方法解析输入的命令
+ * 具体命令的实现可以修改CommandClient的相关方法
+ * @author Travis
  */
 public class CommandClient extends Command {
     private final TransportClient tc;
