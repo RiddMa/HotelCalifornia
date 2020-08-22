@@ -126,8 +126,14 @@ public class CommandClient extends Command {
         return tc.accept().equals("success");
     }
 
+    /**
+     * 解析命令
+     * @param str 命令
+     * @return boolean 返回命令是否合法和是否成功
+     */
     public boolean parse(String str) {
         setArgs(str);
+        if(!isLegal()) return false;//不合法则直接返回false
         switch (args[0]) {
             case "LOGIN":
                 return login();

@@ -1,23 +1,18 @@
 # JAVA加州旅馆
-
+#<u>usrs包已经废弃不用了！</u>
 #### 介绍
 java_california_hotel
 
 #### 软件架构
-软件架构说明
 
 
 #### 安装教程
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+
 
 #### 使用说明
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+
 
 #### 参与贡献
 
