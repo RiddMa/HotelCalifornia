@@ -9,6 +9,7 @@ public class testServer {
             String str;
             while ((str = a.accept()) != null) {
                 System.out.println("client:" + str);
+                a.transport("success\n");
             }
             a.close();
         }

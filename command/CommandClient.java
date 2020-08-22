@@ -126,7 +126,8 @@ public class CommandClient extends Command {
         return tc.accept().equals("success");
     }
 
-    public boolean parse() {
+    public boolean parse(String str) {
+        setArgs(str);
         switch (args[0]) {
             case "LOGIN":
                 return login();

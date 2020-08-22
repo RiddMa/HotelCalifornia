@@ -29,7 +29,7 @@ public class Command {
         args[0] = args[0].toUpperCase();
     }
 
-    public void setArgs(String str) {
+    protected void setArgs(String str) {
         command = str;
         this.args = str.split(" ");
         args[0] = args[0].toUpperCase();
