@@ -2,6 +2,9 @@ package command;
 
 import Transport.TransportServer;
 
+/**
+ * 用于服务器端的命令解析
+ */
 public class CommandServer extends Command {
     private final TransportServer ts;
 
