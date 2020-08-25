@@ -89,12 +89,13 @@ public class CommandClient extends Command {
     }
 
     /**
-     * 预订房间
+     * 预订房间 reserveRoom num startTime endTime
+     * reserve_room 3 2020 3 5 2020 3 8
      *
      * @return 成功返回{@code true}，否则返回{@code false}
      */
     boolean reserveRoom() {
-        if (Integer.parseInt(args[1]) > Integer.parseInt(args[2])) return false;
+        if(args.length != 8) return false;
         tc.transport(command + "\n");
         return tc.accept().equals("success");
     }
