@@ -16,7 +16,9 @@ public abstract class TransportLevel {
     protected OutputStream os;
     protected BufferedWriter bw;
     protected BufferedReader br;
-    protected String addr;
+
+    protected String addrHost;
+    protected String addrClient;
 
     /**
      * 用于传输数据给对方的传输层
@@ -30,21 +32,6 @@ public abstract class TransportLevel {
             bw.flush();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    /**
-     * 用于接收对方传输的数据
-     * 
-     * @return String
-     */
-    public String accept(){
-        try {
-            return br.readLine();
-        } catch (IOException e) {
-            //e.printStackTrace();
-            System.out.println("客户端:" + addr + "已失去连接");
-            return null;
         }
     }
 

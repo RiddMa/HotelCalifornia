@@ -22,11 +22,27 @@ public class TransportClient extends TransportLevel{
             os = socket.getOutputStream();
             bw = new BufferedWriter(new OutputStreamWriter(os));
             br = new BufferedReader(new InputStreamReader(is));
+            addrHost = socket.getInetAddress().getLocalHost().toString();
+            transport(addrHost + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * 用于接收对方传输的数据
+     *
+     * @return String
+     */
+    public String accept(){
+        try {
+            return br.readLine();
+        } catch (IOException e) {
+            //e.printStackTrace();
+            System.out.println("客户端:已失去连接");
+            return null;
+        }
+    }
     // set&get method
     public void setSocket(Socket socket) {
         this.socket = socket;
