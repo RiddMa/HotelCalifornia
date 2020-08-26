@@ -112,16 +112,20 @@ public class CommandServer extends Command {
         Date endDate = new Date(d2.getTime());
         int usrId = Integer.parseInt(args[8]);
         int num = Integer.parseInt(args[1]);
-
-        db.INSERT_RSVN();
-
         int rsvnId;
-        ArrayList<Integer> roomId = new ArrayList<Integer>();
-        roomId.add(1);
+        ArrayList<Integer> roomId = new ArrayList<Integer>(););
 
-
-        //成功则向客户端发送“success\n”
-        ts.transport("success\n");
+        for (int i = 0; i < num; i++) {
+            int room = db.GET_FREEROOM();
+            rsvnId = db.INSERT_RSVN(usrId, room, startDate, endDate);
+            if (rsvnId == -1){
+                ts.transport("failed\n");
+            }
+            else{
+                roomId.add(rsvnId);
+            }
+        }
+        //ts.transport("success\n");
     }
 
     private void logout() {

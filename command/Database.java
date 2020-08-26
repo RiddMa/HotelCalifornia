@@ -13,7 +13,7 @@ public class Database {
     Connection conn;
 
     public Database() {
-        try{
+        try {
             this.conn = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -55,18 +55,39 @@ public class Database {
         return -1;
     }
 
-    public int INSERT_RSVN(String guest, int room, Date startDate, Date endDate) {
-        try (PreparedStatement ps = conn.prepareStatement("INSERT INTO reservations (user_id,room_id,start_date,end_date) VALUES (?,?,?,?)")) {
-            ps.setObject(1, guest);
+    public int GET_FREEROOM() {
+        int roomId = -1;
+        try (PreparedStatement ps = conn.prepareStatement("SELECT room_id FROM rooms WHERE room_id NOT IN (SELECT room_id FROM reservations)")) {
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    roomId = rs.getInt(1);
+                }
+                return roomId;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return -1;
+    }
+
+    public int INSERT_RSVN(int user, int room, Date startDate, Date endDate) {
+        int rsvnId = -1;
+        try (PreparedStatement ps = conn.prepareStatement("INSERT INTO reservations (user_id,room_id,start_date,end_date) VALUES (?,?,?,?)",
+                Statement.RETURN_GENERATED_KEYS)) {
+            ps.setObject(1, user);
             ps.setObject(2, room);
             ps.setObject(3, startDate);
             ps.setObject(4, endDate);
-            int n = ps.executeUpdate();
-            return n;
-        } catch (SQLException e) {
-            e.printStackTrace();
+            ps.executeUpdate();
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    rsvnId = rs.getInt(1);
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
-        return 0;
+        return rsvnId;
     }
 
     public int INSERT_USER(String username, String password, int type) {
