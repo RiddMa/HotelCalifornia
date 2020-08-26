@@ -113,7 +113,7 @@ public class CommandServer extends Command {
         int usrId = Integer.parseInt(args[8]);
         int num = Integer.parseInt(args[1]);
         int rsvnId;
-        ArrayList<Integer> roomId = new ArrayList<Integer>(););
+        ArrayList<Integer> roomId = new ArrayList<Integer>();
 
         for (int i = 0; i < num; i++) {
             int room = db.GET_FREEROOM();
