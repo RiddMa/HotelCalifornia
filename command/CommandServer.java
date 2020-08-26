@@ -121,20 +121,24 @@ public class CommandServer extends Command {
         Date endDate = new Date(d2.getTime());
         int usrId = Integer.parseInt(args[8]);
         int num = Integer.parseInt(args[1]);
-        int rsvnId;
+        int rsvnId = 0;
         ArrayList<Integer> roomId = new ArrayList<Integer>();
 
         for (int i = 0; i < num; i++) {
             int room = db.GET_FREEROOM();
             rsvnId = db.INSERT_RSVN(usrId, room, startDate, endDate);
-            if (rsvnId == -1){
+            if (rsvnId == -1) {
                 ts.transport("failed\n");
-            }
-            else{
+            } else {
                 roomId.add(rsvnId);
             }
         }
-        //ts.transport("success\n");
+        //订单号xxx 预定旅客名xxx  预定人数 x 预定入住日期 x x x(年月日)
+        //预定退房日期 x x x 预定房间号 xxx xxx … xxx （每个xxx表示一个被预定房间的房间号）
+        ts.transport("订单号" + rsvnId + " 预定旅客名" + "预定人数" + num + "\n");
+        ts.transport("预定入住日期" + startDate + "预定退房日期" + endDate + "\n");
+        ts.transport("预定房间号：" + roomId + "\n");
+        ts.transport("#\n");
     }
 
     private void logout() {
