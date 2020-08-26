@@ -2,6 +2,7 @@ package Transport;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 /**
  * 传输层抽象类，用于实现进程间通信。 其中的方法由TransportClient和TransportServer分别实现
@@ -15,6 +16,7 @@ public abstract class TransportLevel {
     protected OutputStream os;
     protected BufferedWriter bw;
     protected BufferedReader br;
+    protected String addr;
 
     /**
      * 用于传输数据给对方的传输层
@@ -36,11 +38,12 @@ public abstract class TransportLevel {
      * 
      * @return String
      */
-    public String accept() {
+    public String accept(){
         try {
             return br.readLine();
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            System.out.println("客户端:" + addr + "已失去连接");
             return null;
         }
     }

@@ -58,17 +58,17 @@ public class CommandServer extends Command {
 
     private void delete() {
         //成功则向客户端发送“success\n”
-        //ts.transport("success\n");
+        ts.transport("success\n");
     }
 
     private void addRoom() {
         //成功则向客户端发送“success\n”
-        //ts.transport("success\n");
+        ts.transport("success\n");
     }
 
     private void createAdmin() {
         //成功则向客户端发送“success\n”
-        //ts.transport("success\n");
+        ts.transport("success\n");
     }
 
     /**
@@ -105,12 +105,12 @@ public class CommandServer extends Command {
 
 
         //成功则向客户端发送“success\n”
-        //ts.transport("success\n");
+        ts.transport("success\n");
     }
 
     private void logout() {
         //成功则向客户端发送“success\n”
-        //ts.transport("success\n");
+        ts.transport("success\n");
     }
 
     private void create() {
@@ -124,6 +124,6 @@ public class CommandServer extends Command {
      * 用户类型如下："default","user", "admin", "superadmin"
      */
     private void login() {
-        //ts.transport("user\n");
+        ts.transport("user\n");
     }
 }
