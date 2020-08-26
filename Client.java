@@ -25,10 +25,13 @@ public class Client {
                             switch (cc.getType()) {
                                 case "user":
                                     System.out.println("你可以进行以下操作：\n" + "注销：logout\n" + "预定房间：reserveRoom\n" + "显示个人预定信息：showReservation");
+                                    break;
                                 case "admin":
                                     System.out.println("你可以进行以下操作：\n" + "注销：logout\n" + "预定房间：reserveRoom\n" + "显示个人预定信息：showReservation\n" + "添加旅馆房间信息：addRoom\n" + "查看所有的预定信息：showReservations");
+                                    break;
                                 case "superadmin":
                                     System.out.println("你可以进行以下操作：\n" + "注销：logout\n" + "预定房间：reserveRoom\n" + "显示个人预定信息：showReservation\n" + "添加旅馆房间信息：addRoom\n" + "查看所有的预定信息：showReservations\n" + "创建管理员：createAdmin\n" + "删除管理员：delete");
+                                    break;
                             }
                         } else {
                             System.out.println("登录失败，请重新输入用户名和密码");
@@ -77,10 +80,11 @@ public class Client {
                         break;
                     case "CREATE":
                         if (cc.parse(str)) {
-                            System.out.println("注册成功，请登录");
+                            System.out.println("注册成功，请登录:login");
                         } else {
                             System.out.println("注册失败");
                         }
+                        break;
                     default:
                         System.out.println("unknown command:" + command + ".");
                         break;
