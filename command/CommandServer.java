@@ -114,9 +114,14 @@ public class CommandServer extends Command {
     }
 
     private void create() {
-        //db.INSERT_USER(args[1],args[2],2);
-        //成功则向客户端发送“success\n”
-        ts.transport("success\n");
+        if(db.INSERT_USER(args[1],args[2],2)==1){
+            ts.transport("success\n");
+            //成功则向客户端发送“success\n”
+        }
+        else{
+            ts.transport("failed\n");
+        }
+
     }
 
     /**
