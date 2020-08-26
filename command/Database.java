@@ -7,7 +7,7 @@ import java.util.Date;
 
 
 public class Database {
-    String JDBC_URL = "jdbc:mysql://localhost:3306/hotelcalifornia?useSSL=false&characterEncoding=utf8";
+    String JDBC_URL = "jdbc:mysql://localhost:3306/hotelcalifornia?useSSL=false&characterEncoding=utf8&serverTimezone=UTC";
     String JDBC_USER = "root";
     String JDBC_PASSWORD = "123456";
     Connection conn;
