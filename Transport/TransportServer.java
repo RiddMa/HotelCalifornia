@@ -21,8 +21,7 @@ public class TransportServer extends TransportLevel {
             ss = new ServerSocket(port);
             System.out.println("启动服务器....端口号:" + port);
             socketAccept();
-            System.out.println("本机" + addrHost + "已上线");
-            System.out.println("客户端" + addrClient + "已连接");
+            //System.out.println("本机" + addrHost + "已上线");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -42,13 +41,15 @@ public class TransportServer extends TransportLevel {
             socket = ss.accept();
             addrHost = socket.getInetAddress().getLocalHost().toString();
 
-
             // initial I/O stream
             is = socket.getInputStream();
             os = socket.getOutputStream();
             bw = new BufferedWriter(new OutputStreamWriter(os));
             br = new BufferedReader(new InputStreamReader(is));
+
             addrClient = accept();
+
+            System.out.println("客户端" + addrClient + "已连接");
         } catch (IOException e) {
             e.printStackTrace();
         }
