@@ -11,6 +11,7 @@ import java.util.Calendar;
 public class CommandServer extends Command {
     private final TransportServer ts;
     private final Database db;
+
     public CommandServer(String str, TransportServer ts) {
         super(str);
         this.ts = ts;
@@ -103,6 +104,7 @@ public class CommandServer extends Command {
         Date startDate = new Date(d1.getTime());
         Date endDate = new Date(d2.getTime());
 
+        db.INSERT_RSVN();
 
         //成功则向客户端发送“success\n”
         ts.transport("success\n");
@@ -114,14 +116,16 @@ public class CommandServer extends Command {
     }
 
     private void create() {
-        if(db.INSERT_USER(args[1],args[2],2)==1){
-            ts.transport("success\n");
-            //成功则向客户端发送“success\n”
-        }
-        else{
+        if (db.RETRIEVE_USERTYPE(args[1], args[2]) != -1) {
+            //0:superadmin 1:admin 2:user
+            if (db.INSERT_USER(args[1], args[2], 2) == 1) {
+                ts.transport("success\n");
+            } else {
+                ts.transport("failed\n");
+            }
+        } else {
             ts.transport("failed\n");
         }
-
     }
 
     /**
@@ -129,6 +133,14 @@ public class CommandServer extends Command {
      * 用户类型如下："default","user", "admin", "superadmin"
      */
     private void login() {
-        ts.transport("user\n");
+        int usrType = db.RETRIEVE_USERTYPE(args[1], args[2]);
+        int usrId = db.RETRIEVE_USERID(args[1], args[2]);
+        switch (usrType) {
+            case 0 -> ts.transport("superadmin\n");
+            case 1 -> ts.transport("admin\n");
+            case 2 -> ts.transport("user\n");
+            default -> ts.transport("failed\n");
+        }
+        ts.transport(usrId + "\n");
     }
 }

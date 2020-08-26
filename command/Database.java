@@ -21,7 +21,7 @@ public class Database {
     }
 
 
-    public int RETRIEVE(String username, String password) {
+    public int RETRIEVE_USERTYPE(String username, String password) {
         try (PreparedStatement ps = conn.prepareStatement("SELECT user_type FROM users WHERE user_name=? AND user_password=?")) {
             ps.setObject(1, username);
             ps.setObject(2, password);
@@ -31,6 +31,23 @@ public class Database {
                     usertype = rs.getInt(1);
                 }
                 return usertype;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return -1;
+    }
+
+    public int RETRIEVE_USERID(String username, String password) {
+        try (PreparedStatement ps = conn.prepareStatement("SELECT user_id FROM users WHERE user_name=? AND user_password=?")) {
+            ps.setObject(1, username);
+            ps.setObject(2, password);
+            try (ResultSet rs = ps.executeQuery()) {
+                int userid = -1;
+                while (rs.next()) {
+                    userid = rs.getInt(1);
+                }
+                return userid;
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
