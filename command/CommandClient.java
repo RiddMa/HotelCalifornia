@@ -15,6 +15,7 @@ import java.util.List;
 public class CommandClient extends Command {
     private final TransportClient tc;
     private String type;
+    private int id;//用户id
     private static final List<String> typeList = Arrays.asList("default","user", "admin", "superadmin");
 
     public CommandClient(String str, TransportClient tc) {
@@ -77,6 +78,7 @@ public class CommandClient extends Command {
         }
         tc.transport(command + "\n");
         String str = tc.accept();
+        id = Integer.parseInt(tc.accept());//获取用户id
         if(typeList.contains(str)){
             type = str;
             return true;
@@ -105,7 +107,7 @@ public class CommandClient extends Command {
             System.out.println("WRONG PARAMETER");
             return false;
         }
-        tc.transport(command + "\n");
+        tc.transport(command + " " + id + "\n");
         return tc.accept().equals("success");
     }
 
