@@ -30,7 +30,10 @@ public class CommandClient extends Command {
      */
     public boolean parse(String str) {
         setArgs(str);
-        if(!isLegal()) return false;//不合法则直接返回false
+        if(!isLegal()) {
+            System.out.println("WRONG COMMAND");
+            return false;
+        }//命令名不合法则直接返回false
         switch (args[0]) {
             case "LOGIN":
                 return login();
@@ -68,7 +71,10 @@ public class CommandClient extends Command {
     boolean login() {
         //TODO: 需要增加用户名的正则检查
         //String pattern = "^[^0-9][\\w_]{5,9}$";
-        if (args.length != 3) return false;
+        if (args.length != 3) {
+            System.out.println("WRONG PARAMETER");
+            return false;
+        }
         tc.transport(command + "\n");
         String str = tc.accept();
         if(typeList.contains(str)){
@@ -95,7 +101,10 @@ public class CommandClient extends Command {
      * @return 成功返回{@code true}，否则返回{@code false}
      */
     boolean reserveRoom() {
-        if(args.length != 8) return false;
+        if(args.length != 8) {
+            System.out.println("WRONG PARAMETER");
+            return false;
+        }
         tc.transport(command + "\n");
         return tc.accept().equals("success");
     }
@@ -117,7 +126,10 @@ public class CommandClient extends Command {
      * @return 房号是否重复，不重复返回{@code true},否则返回{@code false}
      */
     boolean addRoom() {
-        if (args.length != 2) return false;
+        if (args.length != 2) {
+            System.out.println("WRONG PARAMETER");
+            return false;
+        }
         tc.transport(command + "\n");
         return tc.accept().equals("success");
     }
@@ -137,7 +149,10 @@ public class CommandClient extends Command {
      * 超级管理员创建管理员
      */
     boolean createAdmin() {
-        if (args.length != 3) return false;
+        if (args.length != 3) {
+            System.out.println("WRONG PARAMETER");
+            return false;
+        }
         tc.transport(command + "\n");
         return tc.accept().equals("success");
     }
@@ -148,7 +163,10 @@ public class CommandClient extends Command {
      * @return 删除成果返回true，失败（不存在此用户）返回false
      */
     boolean delete() {
-        if (args.length != 2) return false;
+        if (args.length != 2) {
+            System.out.println("WRONG PARAMETER");
+            return false;
+        }
         tc.transport(command + "\n");
         return tc.accept().equals("success");
     }
@@ -159,7 +177,10 @@ public class CommandClient extends Command {
      * @return 创建是否成功
      */
     boolean create() {
-        if (args.length != 3) return false;
+        if (args.length != 3) {
+            System.out.println("WRONG PARAMETER");
+            return false;
+        }
         tc.transport(command + "\n");
         return tc.accept().equals("success");
     }
