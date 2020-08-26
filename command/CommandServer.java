@@ -94,6 +94,11 @@ public class CommandServer extends Command {
         } while (!str.equals("#"));
     }
 
+    /**
+     * 如果房间足够，返回预定信息，如下：
+     * 订单号xxx 预定旅客名xxx  预定人数 x 预定入住日期 x x x(年月日)  预定退房日期 x x x 预定房间号 xxx xxx … xxx （每个xxx表示一个被预定房间的房间号）
+     * 如果房间不够或输入错误，预定失败，不产生订单数据，返回FAIL。每个成功预定，或者说订单都有编号，从1开始，然后每个预定自动加1。失败的预定不生成订单。
+     */
     private void reserveRoom() {
         Calendar c1 = Calendar.getInstance();
         Calendar c2 = Calendar.getInstance();
@@ -101,8 +106,11 @@ public class CommandServer extends Command {
         c2.set(Integer.parseInt(args[5]) - 1970, Integer.parseInt(args[6]), Integer.parseInt(args[7]));
         java.util.Date d1 = c1.getTime();
         java.util.Date d2 = c2.getTime();
+
         Date startDate = new Date(d1.getTime());
         Date endDate = new Date(d2.getTime());
+        int usrId = Integer.parseInt(args[8]);
+        int num = Integer.parseInt(args[1]);
 
         db.INSERT_RSVN();
 
