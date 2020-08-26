@@ -10,11 +10,11 @@ import java.util.Calendar;
  */
 public class CommandServer extends Command {
     private final TransportServer ts;
-    //private final Database db;
+    private final Database db;
     public CommandServer(String str, TransportServer ts) {
         super(str);
         this.ts = ts;
-        //this.db = new Database();
+        this.db = new Database();
     }
 
     /**

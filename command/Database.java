@@ -7,14 +7,14 @@ import java.util.Date;
 
 
 public class Database {
-    String JDBC_URL = "jdbc:mysql://localhost:3306/HotelCalifornia?useSSL=false&characterEncoding=utf8";
+    String JDBC_URL = "jdbc:mysql://localhost:3306/hotelcalifornia?useSSL=false&characterEncoding=utf8";
     String JDBC_USER = "root";
     String JDBC_PASSWORD = "123456";
     Connection conn;
 
     public Database() {
         try{
-            Connection conn = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
+            this.conn = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -22,7 +22,7 @@ public class Database {
 
 
     public int RETRIEVE(String username, String password) {
-        try (PreparedStatement ps = conn.prepareStatement("SLEECT user_type FROM users WHERE user_name=? AND user_password=?")) {
+        try (PreparedStatement ps = conn.prepareStatement("SELECT user_type FROM users WHERE user_name=? AND user_password=?")) {
             ps.setObject(1, username);
             ps.setObject(2, password);
             try (ResultSet rs = ps.executeQuery()) {
