@@ -1,90 +1,92 @@
 import Transport.*;
 import command.*;
+
 import java.io.*;
 
-public class Client{
+public class Client {
     private static String command;
     private static String[] args;
+
     public static void main(String[] arg) {
         TransportClient tc = new TransportClient();
         CommandClient cc = new CommandClient("null", tc);
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));//接收命令行命令
-        System.out.println("请输入用户名和密码：\n"+"（新用户请先进行注册：create）");
+        System.out.println("请输入用户名和密码：\n" + "（新用户请先进行注册：create）");
         try {
             while (true) {
                 String str = br.readLine();
-                    command = str;
-                    args = str.split(" ");
-                    args[0] = args[0].toUpperCase();
-                    switch (args[0]) {
-                        case "LOGIN":
-                            if(cc.parse(str)) {
-                                System.out.println("登录成功");
-                                switch(str){
-                                    case"user":
-                                        System.out.println("你可以进行以下操作：\n"+"注销：logout\n"+"预定房间：reserveRoom\n"+"显示个人预定信息：showReservation");
-                                    case"admin":
-                                        System.out.println("你可以进行以下操作：\n"+"注销：logout\n"+"预定房间：reserveRoom\n"+"显示个人预定信息：showReservation\n"+"添加旅馆房间信息：addRoom\n"+"查看所有的预定信息：showReservations");
-                                    case"superadmin":
-                                        System.out.println("你可以进行以下操作：\n"+"注销：logout\n"+"预定房间：reserveRoom\n"+"显示个人预定信息：showReservation\n"+"添加旅馆房间信息：addRoom\n"+"查看所有的预定信息：showReservations\n"+"创建管理员：createAdmin\n"+"删除管理员：delete");
-                                }
-                            }else{
-                                System.out.println("登录失败，请重新输入用户名和密码");
+                command = str;
+                args = str.split(" ");
+                args[0] = args[0].toUpperCase();
+                switch (args[0]) {
+                    case "LOGIN":
+                        if (cc.parse(str)) {
+                            System.out.println("登录成功");
+                            switch (cc.getType()) {
+                                case "user":
+                                    System.out.println("你可以进行以下操作：\n" + "注销：logout\n" + "预定房间：reserveRoom\n" + "显示个人预定信息：showReservation");
+                                case "admin":
+                                    System.out.println("你可以进行以下操作：\n" + "注销：logout\n" + "预定房间：reserveRoom\n" + "显示个人预定信息：showReservation\n" + "添加旅馆房间信息：addRoom\n" + "查看所有的预定信息：showReservations");
+                                case "superadmin":
+                                    System.out.println("你可以进行以下操作：\n" + "注销：logout\n" + "预定房间：reserveRoom\n" + "显示个人预定信息：showReservation\n" + "添加旅馆房间信息：addRoom\n" + "查看所有的预定信息：showReservations\n" + "创建管理员：createAdmin\n" + "删除管理员：delete");
                             }
-                            break;
-                        case "LOGOUT":
-                            if(cc.parse(str)) {
-                                System.out.println("已登出");
-                            }else{
-                                System.out.println("登出失败");
-                            }
-                            break;
-                        case "RESERVEROOM":
-                            if(cc.parse(str)) {
-                                System.out.println("预约成功，请按时入住");
-                            }else{
-                                System.out.println("房间已满，预约失败");
-                            }
-                            break;
-                        case "SHOWRESERVATIONS":
-                            cc.parse(str);
-                            break;
-                        case "SHOWRESERVATION":
-                            cc.parse(str);
-                            break;
-                        case "CREATEADMIN":
-                            if(cc.parse(str)) {
-                                System.out.println("创建成功");
-                            }else{
-                                System.out.println("创建失败");
-                            }
-                            break;
-                        case "ADDROOM":
-                            if(cc.parse(str)) {
-                                System.out.println("房间创建成功");
-                            }else{
-                                System.out.println("房间创建失败");
-                            }
-                            break;
-                        case "DELETE":
-                            if(cc.parse(str)) {
-                                System.out.println("删除成功");
-                            }else{
-                                System.out.println("失败，不存在此用户");
-                            }
-                            break;
-                        case "CREATE":
-                            if(cc.parse(str)) {
-                                System.out.println("注册成功，请登录");
-                            }else{
-                                System.out.println("注册失败");
-                            }
-                        default:
-                            System.out.println("unknown command:" + command + ".");
-                            break;
-                    }
+                        } else {
+                            System.out.println("登录失败，请重新输入用户名和密码");
+                        }
+                        break;
+                    case "LOGOUT":
+                        if (cc.parse(str)) {
+                            System.out.println("已登出");
+                        } else {
+                            System.out.println("登出失败");
+                        }
+                        break;
+                    case "RESERVEROOM":
+                        if (cc.parse(str)) {
+                            System.out.println("预约成功，请按时入住");
+                        } else {
+                            System.out.println("房间已满，预约失败");
+                        }
+                        break;
+                    case "SHOWRESERVATIONS":
+                        cc.parse(str);
+                        break;
+                    case "SHOWRESERVATION":
+                        cc.parse(str);
+                        break;
+                    case "CREATEADMIN":
+                        if (cc.parse(str)) {
+                            System.out.println("创建成功");
+                        } else {
+                            System.out.println("创建失败");
+                        }
+                        break;
+                    case "ADDROOM":
+                        if (cc.parse(str)) {
+                            System.out.println("房间创建成功");
+                        } else {
+                            System.out.println("房间创建失败");
+                        }
+                        break;
+                    case "DELETE":
+                        if (cc.parse(str)) {
+                            System.out.println("删除成功");
+                        } else {
+                            System.out.println("失败，不存在此用户");
+                        }
+                        break;
+                    case "CREATE":
+                        if (cc.parse(str)) {
+                            System.out.println("注册成功，请登录");
+                        } else {
+                            System.out.println("注册失败");
+                        }
+                    default:
+                        System.out.println("unknown command:" + command + ".");
+                        break;
+                }
             }
-        }catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
