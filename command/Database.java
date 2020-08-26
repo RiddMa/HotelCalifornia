@@ -7,7 +7,7 @@ import java.util.Date;
 
 
 public class Database {
-    String JDBC_URL = "jdbc:mysql://localhost:3306/hotelcalifornia?useSSL=false&characterEncoding=utf8";
+    String JDBC_URL = "jdbc:mysql://localhost:3306/hotelcalifornia?useSSL=false&characterEncoding=utf8&serverTimezone=UTC";
     String JDBC_USER = "root";
     String JDBC_PASSWORD = "123456";
     Connection conn;
@@ -53,15 +53,16 @@ public class Database {
     }
 
     public int INSERT_USER(String username, String password, int type) {
+        int n = 0;
         try (PreparedStatement ps = conn.prepareStatement("INSERT INTO users (user_name,user_password,user_type) VALUES (?,?,?)")) {
             ps.setObject(1, username);
             ps.setObject(2, password);
             ps.setObject(3, type);
-            int n = ps.executeUpdate();
+            n = ps.executeUpdate();
             return n;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return 0;
+        return n;
     }
 }
