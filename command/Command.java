@@ -8,8 +8,9 @@ import java.util.List;
  *
  * @author Travis
  */
-public class Command {
-    protected String command;
+public class Command implements java.io.Serializable{
+    private static final long serialVersionUID = 1L;
+    public String command;
     protected String[] args;
     private static final List<String> commandset = Arrays.asList("LOGIN", "LOGOUT", "RESERVEROOM", "CREATE",
             "SHOWRESERVATION", "ADDROOM", "SHOWRESERVATIONS", "CREATEADMIN", "DELETE");

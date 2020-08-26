@@ -108,7 +108,13 @@ public class CommandClient extends Command {
             return false;
         }
         tc.transport(command + " " + id + "\n");
-        return tc.accept().equals("success");
+        if(tc.accept().equals("failed")) return false;
+        else{
+            String str;
+            while (!(str = tc.accept()).equals("#")) {
+                System.out.println("> " + str + "\n");
+            }
+        }
     }
 
     /**
@@ -118,7 +124,7 @@ public class CommandClient extends Command {
         String str;
         tc.transport(command + "\n");
         while (!(str = tc.accept()).equals("#")) {
-            System.out.println("> " + str);
+            System.out.println("> " + str + "\n");
         }
     }
 

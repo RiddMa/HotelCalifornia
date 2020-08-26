@@ -22,6 +22,7 @@ public class TransportClient extends TransportLevel{
             os = socket.getOutputStream();
             bw = new BufferedWriter(new OutputStreamWriter(os));
             br = new BufferedReader(new InputStreamReader(is));
+
             addrHost = socket.getInetAddress().getLocalHost().toString();
             transport(addrHost + "\n");
         } catch (IOException e) {
