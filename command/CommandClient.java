@@ -114,6 +114,7 @@ public class CommandClient extends Command {
             while (!(str = tc.accept()).equals("#")) {
                 System.out.println("> " + str + "\n");
             }
+            return true;
         }
     }
 
