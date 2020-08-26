@@ -1,7 +1,7 @@
 package command;
 
 import Transport.TransportServer;
-
+import Database;
 import java.sql.Date;
 import java.util.Calendar;
 
@@ -10,7 +10,7 @@ import java.util.Calendar;
  */
 public class CommandServer extends Command {
     private final TransportServer ts;
-
+    private final
     public CommandServer(String str, TransportServer ts) {
         super(str);
         this.ts = ts;
@@ -115,6 +115,7 @@ public class CommandServer extends Command {
     private void create() {
         //成功则向客户端发送“success\n”
         //ts.transport("success\n");
+
     }
 
     /**
