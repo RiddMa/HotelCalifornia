@@ -3,6 +3,7 @@ package command;
 import Transport.TransportServer;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
@@ -113,6 +114,11 @@ public class CommandServer extends Command {
         int num = Integer.parseInt(args[1]);
 
         db.INSERT_RSVN();
+
+        int rsvnId;
+        ArrayList<Integer> roomId = new ArrayList<Integer>();
+        roomId.add(1);
+
 
         //成功则向客户端发送“success\n”
         ts.transport("success\n");
