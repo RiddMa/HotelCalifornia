@@ -10,18 +10,18 @@ import java.util.Calendar;
  */
 public class CommandServer extends Command {
     private final TransportServer ts;
-    private final Database db;
+    //private final Database db;
     public CommandServer(String str, TransportServer ts) {
         super(str);
         this.ts = ts;
-        this.db = new Database();
+        //this.db = new Database();
     }
 
     /**
      * 接收服务端的命令加以解析
      */
-    public void parse() {
-        setArgs(ts.accept());
+    public void parse(String str) {
+        setArgs(str);
         switch (args[0]) {
             case "LOGIN":
                 login();
@@ -114,7 +114,7 @@ public class CommandServer extends Command {
     }
 
     private void create() {
-        db.INSERT_USER(args[1],args[2],2);
+        //db.INSERT_USER(args[1],args[2],2);
         //成功则向客户端发送“success\n”
         ts.transport("success\n");
     }
