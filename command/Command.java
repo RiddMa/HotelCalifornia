@@ -16,8 +16,8 @@ public class Command {
     private static final List<String> defaultCommand = Arrays.asList("LOGIN");
     private static final List<String> userCommand = Arrays.asList("LOGOUT", "RESERVEROOM", "CREATE",
             "SHOWRESERVATION");
-    private static final List<String> adminCommand = Arrays.asList("ADDROOM", "SHOWRESERVATIONS");
-    private static final List<String> superadminCommand = Arrays.asList("CREATEADMIN", "DELETE");
+    private static final List<String> adminCommand = Arrays.asList("LOGOUT", "ADDROOM", "SHOWRESERVATIONS");
+    private static final List<String> superadminCommand = Arrays.asList("LOGOUT", "CREATEADMIN", "DELETE");
 
     /**
      * 接受命令，命令需要以空格隔开。 命令转化为大写形式，参数形式不变
@@ -35,6 +35,7 @@ public class Command {
         this.args = str.split(" ");
         args[0] = args[0].toUpperCase();
     }
+
     /**
      * 判断命令是否合法
      *
@@ -52,7 +53,7 @@ public class Command {
      */
     public boolean isFitType(String type) {
         boolean flag = false;
-        switch (args[0]){
+        switch (args[0]) {
             case "default":
                 flag = (type.equals(defaultCommand.get(0)));
                 break;
