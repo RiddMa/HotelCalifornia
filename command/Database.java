@@ -103,4 +103,8 @@ public class Database {
         }
         return n;
     }
+
+    public int DELETE_USER(String username, int type){
+        try (PreparedStatement ps = conn.prepareStatement("DELETE FROM users WHERE user_name=username AND user_type=type"))
+    }
 }
