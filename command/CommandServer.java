@@ -171,12 +171,15 @@ public class CommandServer extends Command {
             return;
         }
         //房间数量不足直接退出
+        int count = 0;
         for (int room : roomIdList) {
+            count ++;
             rsvnId = db.INSERT_RSVN(usrId, room, startDate, endDate);
             if (rsvnId == -1)
                 ts.transport("failed\n");
             else
                 roomId.add(room);
+            if(count == num) break;
         }
 
         //订单号xxx 预定旅客名xxx  预定人数 x 预定入住日期 x x x(年月日)
