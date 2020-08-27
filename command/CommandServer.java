@@ -68,7 +68,7 @@ public class CommandServer extends Command {
     private void showReservation() {
         //暂时存在这些变量里
         String usrName = "usrName";
-        int usrId = 0;//用户id
+        int usrId = Integer.parseInt(args[1]);//用户id
         int num = 0;//人数
         int rsvnId = 0;//订单id
         Date startDate = null;//开始时间
