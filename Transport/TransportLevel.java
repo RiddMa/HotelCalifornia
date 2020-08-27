@@ -2,6 +2,9 @@ package Transport;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Calendar;
+import java.text.SimpleDateFormat;
+
 import java.net.UnknownHostException;
 
 /**
@@ -18,7 +21,6 @@ public abstract class TransportLevel {
     protected BufferedReader br;
     protected ObjectInputStream oi;
     protected ObjectOutputStream oo;
-
     protected String addrHost;
     protected String addrClient;
 
@@ -28,8 +30,12 @@ public abstract class TransportLevel {
      * @param str
      */
     public void transport(String str) {
+        String formatDate = TransportServer.timeStampToFormatDate(Calendar.getInstance().getTime(), "yyyy-MM-dd HH:mm:ss");
         // TODO
         try {
+            if (str.equals("success")) {
+                System.out.println(formatDate + "\n" + "命令已完成");
+            }
             bw.write(str);
             bw.flush();
         } catch (IOException e) {
@@ -81,5 +87,12 @@ public abstract class TransportLevel {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static String timeStampToFormatDate(Object dateObj, String pattern) {
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+        String formatDate = sdf.format(dateObj);
+        return formatDate;
+
     }
 }
