@@ -5,6 +5,7 @@ import Transport.TransportServer;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 
 /**
  * 用于服务器端的命令解析
@@ -94,14 +95,35 @@ public class CommandServer extends Command {
     }
 
     /**
+     * 命令格式：show_reservations
+     * 没有预定信息，返回，none
+     * 可能有多个有预定信息 可能有多个房间，返回：
+     * （订单号）xxx （预定用户名） xxx （房间号） xxx xxx … xxx  （预定入住日期） 3个整数 （预定退房日期） 3个整数
+     * 如：0001 Zhangsan 101 102 103 2020 3 4 2020 3 8
+     * 0002 Lisi 104 2020 3 5 2020 3 7
      * 向客户端发送要显示的内容，结束内容显示时应该发送"#"在最后一行作为结束标志
      */
     private void showReservations() {
-        String str = "#";
-        do {
-            //对str的处理
-            ts.transport(str);
-        } while (!str.equals("#"));
+        //暂时存在这些变量里
+        String usrName = "usrName";
+        int usrId = 0;//用户id
+        int num = 0;//人数
+        int rsvnId = 0;//订单id
+        Date startDate = null;//开始时间
+        Date endDate = null;//结束时间
+        ArrayList<Integer> roomId = new ArrayList<>();//房间id
+        ArrayList<Reservation> rsvnList = new ArrayList<>();//订单数组
+
+        //处理订单数组
+        Reservation r = new Reservation(usrName, usrId, num, rsvnId, startDate, endDate, roomId);
+        rsvnList.add(r);
+        //处理订单数组结束
+
+        Iterator<Reservation> it = rsvnList.iterator();//遍历订单组
+        while (it.hasNext()) {
+            it.next().transport(ts);
+        }
+        ts.transport("#\n");
     }
 
     /**
@@ -112,8 +134,8 @@ public class CommandServer extends Command {
     private void reserveRoom() {
         Calendar c1 = Calendar.getInstance();
         Calendar c2 = Calendar.getInstance();
-        c1.set(Integer.parseInt(args[2]), Integer.parseInt(args[3])-1, Integer.parseInt(args[4]));
-        c2.set(Integer.parseInt(args[5]), Integer.parseInt(args[6])-1, Integer.parseInt(args[7]));
+        c1.set(Integer.parseInt(args[2]), Integer.parseInt(args[3]) - 1, Integer.parseInt(args[4]));
+        c2.set(Integer.parseInt(args[5]), Integer.parseInt(args[6]) - 1, Integer.parseInt(args[7]));
         java.util.Date d1 = c1.getTime();
         java.util.Date d2 = c2.getTime();
 
@@ -122,7 +144,7 @@ public class CommandServer extends Command {
         int usrId = Integer.parseInt(args[8]);
         int num = Integer.parseInt(args[1]);
         int rsvnId = 0;
-        ArrayList<Integer> roomId = new ArrayList<Integer>();
+        ArrayList<Integer> roomId = new ArrayList<>();
 
         for (int i = 0; i < num; i++) {
             int room = db.GET_FREEROOM();
@@ -135,9 +157,8 @@ public class CommandServer extends Command {
         }
         //订单号xxx 预定旅客名xxx  预定人数 x 预定入住日期 x x x(年月日)
         //预定退房日期 x x x 预定房间号 xxx xxx … xxx （每个xxx表示一个被预定房间的房间号）
-        ts.transport("订单号" + rsvnId + " 预定旅客名" + "预定人数" + num + "\n");
-        ts.transport("预定入住日期" + startDate + "预定退房日期" + endDate + "\n");
-        ts.transport("预定房间号：" + roomId + "\n");
+        Reservation rsvn = new Reservation("usrName", usrId, num, rsvnId, startDate, endDate, roomId);
+        rsvn.transport(ts);
         ts.transport("#\n");
     }
 
@@ -173,5 +194,32 @@ public class CommandServer extends Command {
             default -> ts.transport("failed\n");
         }
         ts.transport(usrId + "\n");
+    }
+}
+
+class Reservation {
+    String usrName;
+    int usrId;
+    int num;
+    int rsvnId;
+    Date startDate, endDate;
+    ArrayList<Integer> roomId;
+
+    public Reservation(String usrName, int usrId, int num, int rsvnId, Date startDate, Date endDate, ArrayList<Integer> roomId) {
+        this.usrId = usrId;
+        this.usrName = usrName;
+        this.num = num;
+        this.rsvnId = rsvnId;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.roomId = roomId;
+    }
+
+    public void transport(TransportServer ts) {
+        ts.transport("--------------------------------------------------------------\n");
+        ts.transport("订单号" + rsvnId + " 预定旅客名" + usrName + "预定人数" + num + "\n");
+        ts.transport("预定入住日期" + startDate + "预定退房日期" + endDate + "\n");
+        ts.transport("预定房间号：" + roomId + "\n");
+        ts.transport("==============================================================\n");
     }
 }
