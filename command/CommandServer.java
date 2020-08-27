@@ -5,7 +5,6 @@ import Transport.TransportServer;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Iterator;
 
 /**
  * 用于服务器端的命令解析
@@ -26,36 +25,16 @@ public class CommandServer extends Command {
     public void parse(String str) {
         setArgs(str);
         switch (args[0]) {
-            case "LOGIN":
-                login();
-                break;
-            case "LOGOUT":
-                logout();
-                break;
-            case "RESERVEROOM":
-                reserveRoom();
-                break;
-            case "SHOWRESERVATIONS":
-                showReservations();
-                break;
-            case "SHOWRESERVATION":
-                showReservation();
-                break;
-            case "CREATEADMIN":
-                createAdmin();
-                break;
-            case "ADDROOM":
-                addRoom();
-                break;
-            case "DELETE":
-                delete();
-                break;
-            case "CREATE":
-                create();
-                break;
-            default:
-                System.out.println("unknown command:" + command + ".");
-                break;
+            case "LOGIN" -> login();
+            case "LOGOUT" -> logout();
+            case "RESERVEROOM" -> reserveRoom();
+            case "SHOWRESERVATIONS" -> showReservations();
+            case "SHOWRESERVATION" -> showReservation();
+            case "CREATEADMIN" -> createAdmin();
+            case "ADDROOM" -> addRoom();
+            case "DELETE" -> delete();
+            case "CREATE" -> create();
+            default -> System.out.println("unknown command:" + command + ".");
         }
     }
 
@@ -87,11 +66,19 @@ public class CommandServer extends Command {
      * 向客户端发送要显示的内容，结束内容显示时应该发送"#"在最后一行作为结束标志
      */
     private void showReservation() {
-        String str = "#";
-        do {
-            //对str的处理
-            ts.transport(str);
-        } while (!str.equals("#"));
+        //暂时存在这些变量里
+        String usrName = "usrName";
+        int usrId = 0;//用户id
+        int num = 0;//人数
+        int rsvnId = 0;//订单id
+        Date startDate = null;//开始时间
+        Date endDate = null;//结束时间
+        ArrayList<Integer> roomId = new ArrayList<>();//房间id
+
+        //处理订单
+        Reservation r = new Reservation(usrName, usrId, num, rsvnId, startDate, endDate, roomId);
+        r.transport(ts);
+        ts.transport("#\n");
     }
 
     /**
@@ -115,13 +102,14 @@ public class CommandServer extends Command {
         ArrayList<Reservation> rsvnList = new ArrayList<>();//订单数组
 
         //处理订单数组
+        //while
         Reservation r = new Reservation(usrName, usrId, num, rsvnId, startDate, endDate, roomId);
         rsvnList.add(r);
         //处理订单数组结束
 
-        Iterator<Reservation> it = rsvnList.iterator();//遍历订单组
-        while (it.hasNext()) {
-            it.next().transport(ts);
+        //遍历订单组
+        for (Reservation reservation : rsvnList) {
+            reservation.transport(ts);
         }
         ts.transport("#\n");
     }
