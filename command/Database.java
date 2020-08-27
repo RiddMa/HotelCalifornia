@@ -118,13 +118,16 @@ public class Database {
     }
 
     public void RETRIEVE_USER(int userId) throws SQLException {
-        try (PreparedStatement ps = conn.prepareStatement("SELECT user_id,user_name FROM users WHERE user_id=?")) {
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT user_id,user_name FROM users WHERE user_id=?");
             ps.setObject(1, userId);
-            try {
-                resultset = ps.executeQuery();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            //try {
+            resultset = ps.executeQuery();
+            //} catch (SQLException throwables) {
+            //    throwables.printStackTrace();
+            //}
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 
@@ -145,17 +148,16 @@ public class Database {
     }
 
     /**
-     *
      * @param usrStartDate 预定开始日期
-     * @param usrEndDate 预定结束日期
+     * @param usrEndDate   预定结束日期
      * @return
      */
-    public ArrayList<Integer> GET_FREEROOM(Date usrStartDate,Date usrEndDate) {
+    public ArrayList<Integer> GET_FREEROOM(Date usrStartDate, Date usrEndDate) {
         int roomId = -1;
         try (PreparedStatement ps = conn.prepareStatement("SELECT room_id FROM rooms WHERE room_id NOT IN " +
-                "(SELECT room_id FROM reservations WHERE start_date>? AND end_date<?)")) {
-            ps.setObject(1,usrEndDate);
-            ps.setObject(2,usrStartDate);
+                "(SELECT room_id FROM reservations WHERE start_date<? OR end_date>?)")) {
+            ps.setObject(1, usrEndDate);
+            ps.setObject(2, usrStartDate);
             try (ResultSet rs = ps.executeQuery()) {
                 ArrayList<Integer> roomIdList = new ArrayList<>();
                 while (rs.next()) {
@@ -204,15 +206,16 @@ public class Database {
         return n;
     }
 
-    public int DELETE_USER(String username, int type) {
+    public int DELETE_USER(String username) {
         int n = 0;
-        try (PreparedStatement ps = conn.prepareStatement("DELETE FROM users WHERE user_name=? AND user_type=?")) {
+        try (PreparedStatement ps = conn.prepareStatement("DELETE FROM users WHERE user_name=?")) {
             ps.setObject(1, username);
-            ps.setObject(2, type);
             n = ps.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         return n;
     }
+
+    public int
 }

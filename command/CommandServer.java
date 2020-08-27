@@ -40,24 +40,24 @@ public class CommandServer extends Command {
     }
 
     private void delete() {
-
-        //成功则向客户端发送“success\n”
-        ts.transport("success\n");
+        if(db.DELETE_USER(args[1])==1){
+            ts.transport("success\n");
+        }
+        else{
+            ts.transport("failed\n");
+        }
     }
 
     private void addRoom() {
+
         //成功则向客户端发送“success\n”
         ts.transport("success\n");
     }
 
     private void createAdmin() {
-        if (db.RETRIEVE_USERTYPE(args[1], args[2]) != -1) {
-            //0:superadmin 1:admin 2:user
-            if (db.INSERT_USER(args[1], args[2], 1) == 1) {
-                ts.transport("success\n");
-            } else {
-                ts.transport("failed\n");
-            }
+        //0:superadmin 1:admin 2:user
+        if (db.INSERT_USER(args[1], args[2], 1) == 1) {
+            ts.transport("success\n");
         } else {
             ts.transport("failed\n");
         }
@@ -78,10 +78,8 @@ public class CommandServer extends Command {
         int orderId = 0;
         Reservations rs = new Reservations();
         try {
-            db.RETRIEVE_USER(usrId);
-            usrName = db.resultset.getString(2);
+            usrName = db.RETRIEVE_USERNAME(usrId);
             db.RETRIEVE_RSVN(usrId);
-
             while (db.resultset.next()) {
                 rsvnId = db.resultset.getInt(1);
                 orderId = db.resultset.getInt(2);
@@ -171,25 +169,28 @@ public class CommandServer extends Command {
             return;
         }
         //房间数量不足直接退出
+
         int count = 0;
         for (int room : roomIdList) {
-            count ++;
+            /*分配房间*/
             rsvnId = db.INSERT_RSVN(usrId, room, startDate, endDate);
             if (rsvnId == -1)
                 ts.transport("failed\n");
             else
                 roomId.add(room);
-            if(count == num) break;
+            count++;
+            if (count == num) break;
         }
 
         //订单号xxx 预定旅客名xxx  预定人数 x 预定入住日期 x x x(年月日)
         //预定退房日期 x x x 预定房间号 xxx xxx … xxx （每个xxx表示一个被预定房间的房间号）
         ts.transport("--------------------------------------------------------------\n");
-        ts.transport("订单号" + rsvnId + " 预定旅客名" + "usrName" + "预定人数" + num + "\n");
+        ts.transport("订单号：" + db.orderId + " 预定旅客名：" + "usrName" + "预定人数：" + num + "\n");
         ts.transport("预定入住日期" + startDate + "预定退房日期" + endDate + "\n");
         ts.transport("预定房间号：" + roomId + "\n");
         ts.transport("==============================================================\n");
         ts.transport("#\n");
+        db.orderId++;
     }
 
     private void logout() {
