@@ -176,7 +176,7 @@ public class CommandServer extends Command {
             if (rsvnId == -1)
                 ts.transport("failed\n");
             else
-                roomId.add(rsvnId);
+                roomId.add(room);
         }
 
         //订单号xxx 预定旅客名xxx  预定人数 x 预定入住日期 x x x(年月日)
