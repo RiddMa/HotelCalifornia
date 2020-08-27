@@ -16,6 +16,7 @@ public class testClient {
             i++;
             String str = sc.nextLine();
             b.transport(str + "\n");
+            System.out.println("server:" + b.accept());
             //System.out.println("server:" + b.accept());
         }
         b.close();
