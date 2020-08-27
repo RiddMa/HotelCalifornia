@@ -36,6 +36,10 @@ public class CommandClient extends Command {
             System.out.println("WRONG COMMAND");
             return false;
         }//命令名不合法则直接返回false
+        if(!isFitType(type)) {
+            System.out.println("WRONG type");
+            return false;
+        }
         switch (args[0]) {
             case "LOGIN":
                 return login();
@@ -95,7 +99,11 @@ public class CommandClient extends Command {
      */
     boolean logout() {
         tc.transport("logout\n");
-        return tc.accept().equals("success");
+
+        if(tc.accept().equals("success")){
+            type = "default";
+            return true;
+        }else return false;
     }
 
     /**
@@ -113,6 +121,7 @@ public class CommandClient extends Command {
         tc.transport(command + " " + id + "\n");
         str = tc.accept();
         if(str.equals("failed")) return false;
+        else if(str.equals("no enough rooms")) return false;
         else{
             System.out.println("> " + str);
             while (!(str = tc.accept()).equals("#")) {
@@ -129,7 +138,7 @@ public class CommandClient extends Command {
         String str;
         tc.transport(command + " " + id + "\n");
         while (!(str = tc.accept()).equals("#")) {
-            System.out.println("> " + str + "\n");
+            System.out.println("> " + str);
         }
     }
 
