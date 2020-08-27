@@ -81,7 +81,7 @@ public class CommandServer extends Command {
             while(db.resultset.next()){
                 rsvnId = db.resultset.getInt(1);
                 usrId = db.resultset.getInt(2);
-                roomId.add(db.resultset.getInt(3));
+                roomId =db.resultset.getInt(3);
                 rsvnId = db.resultset.getInt(4);
             }
         } catch (SQLException throwables) {
@@ -121,7 +121,7 @@ public class CommandServer extends Command {
             while(db.resultset.next()){
                 rsvnId = db.resultset.getInt(1);
                 usrId = db.resultset.getInt(2);
-                roomId.add(db.resultset.getInt(3));
+                roomId = db.resultset.getInt(3);
                 rsvnId = db.resultset.getInt(4);
             }
         } catch (SQLException throwables) {
