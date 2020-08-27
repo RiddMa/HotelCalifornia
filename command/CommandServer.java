@@ -73,10 +73,11 @@ public class CommandServer extends Command {
         int rsvnId = 0;//订单id
         Date startDate = null;//开始时间
         Date endDate = null;//结束时间
-        ArrayList<Integer> roomId = new ArrayList<>();//房间id
+        int roomId = 0;//房间id
+        int orderId = 0;
 
         //处理订单
-        Reservation r = new Reservation(usrName, usrId, num, rsvnId, startDate, endDate, roomId);
+        Reservation r = new Reservation(usrName, usrId, num, rsvnId, startDate, endDate, roomId, orderId);
         r.transport(ts);
         ts.transport("#\n");
     }
@@ -98,12 +99,13 @@ public class CommandServer extends Command {
         int rsvnId = 0;//订单id
         Date startDate = null;//开始时间
         Date endDate = null;//结束时间
-        ArrayList<Integer> roomId = new ArrayList<>();//房间id
+        int roomId = 0;//房间id
+        int orderId = 0;
         ArrayList<Reservation> rsvnList = new ArrayList<>();//订单数组
 
         //处理订单数组
         //while
-        Reservation r = new Reservation(usrName, usrId, num, rsvnId, startDate, endDate, roomId);
+        Reservation r = new Reservation(usrName, usrId, num, rsvnId, startDate, endDate, roomId, orderId);
         rsvnList.add(r);
         //处理订单数组结束
 
@@ -147,8 +149,11 @@ public class CommandServer extends Command {
         }
         //订单号xxx 预定旅客名xxx  预定人数 x 预定入住日期 x x x(年月日)
         //预定退房日期 x x x 预定房间号 xxx xxx … xxx （每个xxx表示一个被预定房间的房间号）
-        Reservation rsvn = new Reservation("usrName", usrId, num, rsvnId, startDate, endDate, roomId);
-        rsvn.transport(ts);
+        ts.transport("--------------------------------------------------------------\n");
+        ts.transport("订单号" + rsvnId + " 预定旅客名" + "usrName" + "预定人数" + num + "\n");
+        ts.transport("预定入住日期" + startDate + "预定退房日期" + endDate + "\n");
+        ts.transport("预定房间号：" + roomId + "\n");
+        ts.transport("==============================================================\n");
         ts.transport("#\n");
     }
 
@@ -193,9 +198,10 @@ class Reservation {
     int num;
     int rsvnId;
     Date startDate, endDate;
-    ArrayList<Integer> roomId;
+    int roomId;
+    int orderId;
 
-    public Reservation(String usrName, int usrId, int num, int rsvnId, Date startDate, Date endDate, ArrayList<Integer> roomId) {
+    public Reservation(String usrName, int usrId, int num, int rsvnId, Date startDate, Date endDate, int roomId, int orderId) {
         this.usrId = usrId;
         this.usrName = usrName;
         this.num = num;
@@ -203,6 +209,7 @@ class Reservation {
         this.startDate = startDate;
         this.endDate = endDate;
         this.roomId = roomId;
+        this.orderId = orderId;
     }
 
     public void transport(TransportServer ts) {
