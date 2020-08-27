@@ -148,12 +148,14 @@ public class CommandServer extends Command {
 
         for (int i = 0; i < num; i++) {
             int room = db.GET_FREEROOM();
-            rsvnId = db.INSERT_RSVN(usrId, room, startDate, endDate);
-            if (rsvnId == -1) {
+            if (room != -1)
+                rsvnId = db.INSERT_RSVN(usrId, room, startDate, endDate);
+            else
                 ts.transport("failed\n");
-            } else {
+            if (rsvnId == -1)
+                ts.transport("failed\n");
+            else
                 roomId.add(rsvnId);
-            }
         }
         //订单号xxx 预定旅客名xxx  预定人数 x 预定入住日期 x x x(年月日)
         //预定退房日期 x x x 预定房间号 xxx xxx … xxx （每个xxx表示一个被预定房间的房间号）
