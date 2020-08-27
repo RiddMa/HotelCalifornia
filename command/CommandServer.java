@@ -59,6 +59,7 @@ public class CommandServer extends Command {
     }
 
     private void delete() {
+
         //成功则向客户端发送“success\n”
         ts.transport("success\n");
     }
@@ -69,8 +70,16 @@ public class CommandServer extends Command {
     }
 
     private void createAdmin() {
-        //成功则向客户端发送“success\n”
-        ts.transport("success\n");
+        if (db.RETRIEVE_USERTYPE(args[1], args[2]) != -1) {
+            //0:superadmin 1:admin 2:user
+            if (db.INSERT_USER(args[1], args[2], 1) == 1) {
+                ts.transport("success\n");
+            } else {
+                ts.transport("failed\n");
+            }
+        } else {
+            ts.transport("failed\n");
+        }
     }
 
     /**

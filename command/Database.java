@@ -103,4 +103,16 @@ public class Database {
         }
         return n;
     }
+
+    public int DELETE_USER(String username, int type){
+        int n = 0;
+        try (PreparedStatement ps = conn.prepareStatement("DELETE FROM users WHERE user_name=? AND user_type=?")){
+            ps.setObject(1, username);
+            ps.setObject(2, type);
+            n = ps.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return n;
+    }
 }
