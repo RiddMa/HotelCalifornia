@@ -11,10 +11,54 @@ public class Database {
     String JDBC_USER = "root";
     String JDBC_PASSWORD = "123456";
     Connection conn;
+    ResultSet resultset;
+    int orderId = 1;
 
     public Database() {
         try {
+            //连接到数据库
             this.conn = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
+            //获取订单id
+            try (PreparedStatement ps = conn.prepareStatement("SELECT order_id FROM reservations WHERE order_id=(select max(order_id) from reservations)")) {
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        orderId = rs.getInt(1);
+                    }
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    /**
+     * 超级管理员获取所有订单
+     */
+    public void RETRIEVE_ALL_RSVN() {
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT rsvn_id,order_id,user_id,room_id,start_date,end_date FROM reservations WHERE rsvn_id>0");
+            try {
+                resultset = ps.executeQuery();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    /**
+     * 用户获取订单
+     */
+    public void RETRIEVE_RSVN(int userId) {
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT rsvn_id,order_id,user_id,room_id,start_date,end_date FROM reservations WHERE user_id=?");
+            ps.setObject(1, userId);
+            try {
+                resultset = ps.executeQuery();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -72,12 +116,13 @@ public class Database {
 
     public int INSERT_RSVN(int user, int room, Date startDate, Date endDate) {
         int rsvnId = -1;
-        try (PreparedStatement ps = conn.prepareStatement("INSERT INTO reservations (user_id,room_id,start_date,end_date) VALUES (?,?,?,?)",
+        try (PreparedStatement ps = conn.prepareStatement("INSERT INTO reservations (user_id,room_id,start_date,end_date,orderId) VALUES (?,?,?,?,?)",
                 Statement.RETURN_GENERATED_KEYS)) {
             ps.setObject(1, user);
             ps.setObject(2, room);
             ps.setObject(3, startDate);
             ps.setObject(4, endDate);
+            ps.setObject(5, ++orderId);
             ps.executeUpdate();
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
@@ -104,9 +149,9 @@ public class Database {
         return n;
     }
 
-    public int DELETE_USER(String username, int type){
+    public int DELETE_USER(String username, int type) {
         int n = 0;
-        try (PreparedStatement ps = conn.prepareStatement("DELETE FROM users WHERE user_name=? AND user_type=?")){
+        try (PreparedStatement ps = conn.prepareStatement("DELETE FROM users WHERE user_name=? AND user_type=?")) {
             ps.setObject(1, username);
             ps.setObject(2, type);
             n = ps.executeUpdate();

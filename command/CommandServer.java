@@ -3,6 +3,7 @@ package command;
 import Transport.TransportServer;
 
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -76,13 +77,26 @@ public class CommandServer extends Command {
         int roomId = 0;//房间id
         int orderId = 0;
 
+        try{
+            while(db.resultset.next()){
+                rsvnId = db.resultset.getInt(1);
+                usrId = db.resultset.getInt(2);
+                roomId.add(db.resultset.getInt(3));
+                rsvnId = db.resultset.getInt(4);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
         //处理订单
         Reservation r = new Reservation(usrName, usrId, num, rsvnId, startDate, endDate, roomId, orderId);
         r.transport(ts);
+
         ts.transport("#\n");
     }
 
     /**
+     * 管理员查看所有订单
      * 命令格式：show_reservations
      * 没有预定信息，返回，none
      * 可能有多个有预定信息 可能有多个房间，返回：
@@ -103,6 +117,16 @@ public class CommandServer extends Command {
         int orderId = 0;
         ArrayList<Reservation> rsvnList = new ArrayList<>();//订单数组
 
+        try{
+            while(db.resultset.next()){
+                rsvnId = db.resultset.getInt(1);
+                usrId = db.resultset.getInt(2);
+                roomId.add(db.resultset.getInt(3));
+                rsvnId = db.resultset.getInt(4);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         //处理订单数组
         //while
         Reservation r = new Reservation(usrName, usrId, num, rsvnId, startDate, endDate, roomId, orderId);
