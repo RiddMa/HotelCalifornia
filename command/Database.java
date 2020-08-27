@@ -2,8 +2,9 @@ package command;
 
 import javax.xml.crypto.Data;
 import java.sql.*;
+import java.sql.Date;
 import java.util.*;
-import java.util.Date;
+//import java.util.Date;
 
 
 public class Database {
@@ -13,6 +14,7 @@ public class Database {
     Connection conn;
     ResultSet resultset;
     int orderId = 1;
+
 
     public Database() {
         try {
@@ -127,8 +129,7 @@ public class Database {
     }
 
 
-
-    public int GET_FREEROOM() {
+    public int GET_FREEROOMID() {
         int roomId = -1;
         try (PreparedStatement ps = conn.prepareStatement("SELECT room_id FROM rooms WHERE room_id NOT IN (SELECT room_id FROM reservations)")) {
             try (ResultSet rs = ps.executeQuery()) {
@@ -143,15 +144,40 @@ public class Database {
         return -1;
     }
 
+    /**
+     *
+     * @param usrStartDate 预定开始日期
+     * @param usrEndDate 预定结束日期
+     * @return
+     */
+    public ArrayList<Integer> GET_FREEROOM(Date usrStartDate,Date usrEndDate) {
+        int roomId = -1;
+        try (PreparedStatement ps = conn.prepareStatement("SELECT room_id FROM rooms WHERE room_id NOT IN " +
+                "(SELECT room_id FROM reservations WHERE start_date>? AND end_date<?)")) {
+            ps.setObject(1,usrEndDate);
+            ps.setObject(2,usrStartDate);
+            try (ResultSet rs = ps.executeQuery()) {
+                ArrayList<Integer> roomIdList = new ArrayList<>();
+                while (rs.next()) {
+                    roomIdList.add(rs.getInt(1));
+                }
+                return roomIdList;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return null;
+    }
+
     public int INSERT_RSVN(int user, int room, Date startDate, Date endDate) {
         int rsvnId = -1;
-        try (PreparedStatement ps = conn.prepareStatement("INSERT INTO reservations (user_id,room_id,start_date,end_date,orderId) VALUES (?,?,?,?,?)",
+        try (PreparedStatement ps = conn.prepareStatement("INSERT INTO reservations (user_id,room_id,start_date,end_date,order_id) VALUES (?,?,?,?,?)",
                 Statement.RETURN_GENERATED_KEYS)) {
             ps.setObject(1, user);
             ps.setObject(2, room);
             ps.setObject(3, startDate);
             ps.setObject(4, endDate);
-            ps.setObject(5, ++orderId);
+            ps.setObject(5, orderId);
             ps.executeUpdate();
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {

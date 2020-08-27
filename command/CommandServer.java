@@ -23,7 +23,7 @@ public class CommandServer extends Command {
     /**
      * 接收服务端的命令加以解析
      */
-    public void parse(String str){
+    public void parse(String str) {
         setArgs(str);
         switch (args[0]) {
             case "LOGIN" -> login();
@@ -66,7 +66,7 @@ public class CommandServer extends Command {
     /**
      * 向客户端发送要显示的内容，结束内容显示时应该发送"#"在最后一行作为结束标志
      */
-    private void showReservation(){
+    private void showReservation() {
         //暂时存在这些变量里
         String usrName = "usrName";
         int usrId = Integer.parseInt(args[1]);//用户id
@@ -159,19 +159,26 @@ public class CommandServer extends Command {
         int usrId = Integer.parseInt(args[8]);
         int num = Integer.parseInt(args[1]);
         int rsvnId = 0;
-        ArrayList<Integer> roomId = new ArrayList<>();
+        int freeRoomNumber = 0;//空余房间数量
+        ArrayList<Integer> roomId = new ArrayList<>();//存储预定的房间号
+        ArrayList<Integer> roomIdList = new ArrayList<>();
 
-        for (int i = 0; i < num; i++) {
-            int room = db.GET_FREEROOM();
-            if (room != -1)
-                rsvnId = db.INSERT_RSVN(usrId, room, startDate, endDate);
-            else
-                ts.transport("failed\n");
+        roomIdList = db.GET_FREEROOM(startDate, endDate);
+        freeRoomNumber = roomIdList.size();
+        //获取空余房间id列表，及其数量
+        if (freeRoomNumber < num) {
+            ts.transport("no enough rooms\n");
+            return;
+        }
+        //房间数量不足直接退出
+        for (int room : roomIdList) {
+            rsvnId = db.INSERT_RSVN(usrId, room, startDate, endDate);
             if (rsvnId == -1)
                 ts.transport("failed\n");
             else
                 roomId.add(rsvnId);
         }
+
         //订单号xxx 预定旅客名xxx  预定人数 x 预定入住日期 x x x(年月日)
         //预定退房日期 x x x 预定房间号 xxx xxx … xxx （每个xxx表示一个被预定房间的房间号）
         ts.transport("--------------------------------------------------------------\n");
