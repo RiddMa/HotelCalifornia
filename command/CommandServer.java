@@ -77,11 +77,11 @@ public class CommandServer extends Command {
         int roomId = 0;//房间id
         int orderId = 0;
 
-        try{
-            while(db.resultset.next()){
+        try {
+            while (db.resultset.next()) {
                 rsvnId = db.resultset.getInt(1);
                 usrId = db.resultset.getInt(2);
-                roomId =db.resultset.getInt(3);
+                roomId = db.resultset.getInt(3);
                 rsvnId = db.resultset.getInt(4);
             }
         } catch (SQLException throwables) {
@@ -117,8 +117,8 @@ public class CommandServer extends Command {
         int orderId = 0;
         ArrayList<Reservation> rsvnList = new ArrayList<>();//订单数组
 
-        try{
-            while(db.resultset.next()){
+        try {
+            while (db.resultset.next()) {
                 rsvnId = db.resultset.getInt(1);
                 usrId = db.resultset.getInt(2);
                 roomId = db.resultset.getInt(3);
@@ -216,6 +216,48 @@ public class CommandServer extends Command {
     }
 }
 
+/**
+ * 订单列
+ */
+class Reservations {
+    ArrayList<Reservation> rsvnList;
+
+    public Reservations() {
+        rsvnList = new ArrayList<>();
+    }
+
+    /**
+     * 增加订单到订单列
+     * @param r 订单
+     */
+    void add(Reservation r) {
+        rsvnList.add(r);
+    }
+
+    /**
+     * 向客户端传送所需字符串
+     * @param ts
+     */
+    void transport(TransportServer ts) {
+        if (rsvnList == null) return;
+        Reservation reservation = rsvnList.get(0);//取第一个reservation
+        int tempOrderID = reservation.orderId;//取第一个orderId
+        for (Reservation rsvn : rsvnList) {//遍历
+            if (tempOrderID != rsvn.orderId) {//当当前orderId与要发送的id不一致时发送并重置
+                reservation.transport(ts);
+                tempOrderID = rsvn.orderId;
+                reservation = rsvn;
+            }
+            reservation.roomIdList.add(rsvn.roomId);
+        }
+        reservation.transport(ts);
+        ts.transport("#\n");
+    }
+}
+
+/**
+ * 订单
+ */
 class Reservation {
     String usrName;
     int usrId;
@@ -224,6 +266,7 @@ class Reservation {
     Date startDate, endDate;
     int roomId;
     int orderId;
+    ArrayList<Integer> roomIdList;
 
     public Reservation(String usrName, int usrId, int num, int rsvnId, Date startDate, Date endDate, int roomId, int orderId) {
         this.usrId = usrId;
@@ -234,13 +277,14 @@ class Reservation {
         this.endDate = endDate;
         this.roomId = roomId;
         this.orderId = orderId;
+        roomIdList = new ArrayList<>();
     }
 
     public void transport(TransportServer ts) {
         ts.transport("--------------------------------------------------------------\n");
         ts.transport("订单号" + rsvnId + " 预定旅客名" + usrName + "预定人数" + num + "\n");
         ts.transport("预定入住日期" + startDate + "预定退房日期" + endDate + "\n");
-        ts.transport("预定房间号：" + roomId + "\n");
+        ts.transport("预定房间号：" + roomIdList + "\n");
         ts.transport("==============================================================\n");
     }
 }
