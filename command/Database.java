@@ -99,6 +99,35 @@ public class Database {
         return -1;
     }
 
+    public String RETRIEVE_USERNAME(int userId) {
+        try (PreparedStatement ps = conn.prepareStatement("SELECT user_name FROM users WHERE user_id=?")) {
+            ps.setObject(1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                String userName = null;
+                while (rs.next()) {
+                    userName = rs.getString(1);
+                }
+                return userName;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return null;
+    }
+
+    public void RETRIEVE_USER(int userId) throws SQLException {
+        try (PreparedStatement ps = conn.prepareStatement("SELECT user_id,user_name FROM users WHERE user_id=?")) {
+            ps.setObject(1, userId);
+            try {
+                resultset = ps.executeQuery();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+    }
+
+
+
     public int GET_FREEROOM() {
         int roomId = -1;
         try (PreparedStatement ps = conn.prepareStatement("SELECT room_id FROM rooms WHERE room_id NOT IN (SELECT room_id FROM reservations)")) {

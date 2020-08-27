@@ -23,7 +23,7 @@ public class CommandServer extends Command {
     /**
      * 接收服务端的命令加以解析
      */
-    public void parse(String str) {
+    public void parse(String str){
         setArgs(str);
         switch (args[0]) {
             case "LOGIN" -> login();
@@ -66,7 +66,7 @@ public class CommandServer extends Command {
     /**
      * 向客户端发送要显示的内容，结束内容显示时应该发送"#"在最后一行作为结束标志
      */
-    private void showReservation() {
+    private void showReservation(){
         //暂时存在这些变量里
         String usrName = "usrName";
         int usrId = Integer.parseInt(args[1]);//用户id
@@ -76,23 +76,27 @@ public class CommandServer extends Command {
         Date endDate = null;//结束时间
         int roomId = 0;//房间id
         int orderId = 0;
-
+        Reservations rs = new Reservations();
         try {
+            db.RETRIEVE_USER(usrId);
+            usrName = db.resultset.getString(2);
+            db.RETRIEVE_RSVN(usrId);
+
             while (db.resultset.next()) {
                 rsvnId = db.resultset.getInt(1);
-                usrId = db.resultset.getInt(2);
-                roomId = db.resultset.getInt(3);
-                rsvnId = db.resultset.getInt(4);
+                orderId = db.resultset.getInt(2);
+                //usrId = db.resultset.getInt(3);
+                roomId = db.resultset.getInt(4);
+                startDate = db.resultset.getDate(5);
+                endDate = db.resultset.getDate(6);
+                Reservation r = new Reservation(usrName, usrId, num, rsvnId, startDate, endDate, roomId, orderId);
+                rs.add(r);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
         //处理订单
-        Reservation r = new Reservation(usrName, usrId, num, rsvnId, startDate, endDate, roomId, orderId);
-        r.transport(ts);
-
-        ts.transport("#\n");
+        rs.transport(ts);
     }
 
     /**
@@ -116,28 +120,25 @@ public class CommandServer extends Command {
         int roomId = 0;//房间id
         int orderId = 0;
         ArrayList<Reservation> rsvnList = new ArrayList<>();//订单数组
+        Reservations rs = new Reservations();
 
+        db.RETRIEVE_ALL_RSVN();
         try {
             while (db.resultset.next()) {
                 rsvnId = db.resultset.getInt(1);
-                usrId = db.resultset.getInt(2);
-                roomId = db.resultset.getInt(3);
-                rsvnId = db.resultset.getInt(4);
+                orderId = db.resultset.getInt(2);
+                usrId = db.resultset.getInt(3);
+                usrName = db.RETRIEVE_USERNAME(usrId);
+                roomId = db.resultset.getInt(4);
+                startDate = db.resultset.getDate(5);
+                endDate = db.resultset.getDate(6);
+                Reservation r = new Reservation(usrName, usrId, num, rsvnId, startDate, endDate, roomId, orderId);
+                rs.add(r);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        //处理订单数组
-        //while
-        Reservation r = new Reservation(usrName, usrId, num, rsvnId, startDate, endDate, roomId, orderId);
-        rsvnList.add(r);
-        //处理订单数组结束
-
-        //遍历订单组
-        for (Reservation reservation : rsvnList) {
-            reservation.transport(ts);
-        }
-        ts.transport("#\n");
+        rs.transport(ts);
     }
 
     /**
