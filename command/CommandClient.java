@@ -103,16 +103,18 @@ public class CommandClient extends Command {
      * @return 成功返回{@code true}，否则返回{@code false}
      */
     boolean reserveRoom() {
+        String str;
         if(args.length != 8) {
             System.out.println("WRONG PARAMETER");
             return false;
         }
         tc.transport(command + " " + id + "\n");
-        if(tc.accept().equals("failed")) return false;
+        str = tc.accept();
+        if(str.equals("failed")) return false;
         else{
-            String str;
+            System.out.println("> " + str);
             while (!(str = tc.accept()).equals("#")) {
-                System.out.println("> " + str + "\n");
+                System.out.println("> " + str);
             }
             return true;
         }

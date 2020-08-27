@@ -103,8 +103,8 @@ public class CommandServer extends Command {
     private void reserveRoom() {
         Calendar c1 = Calendar.getInstance();
         Calendar c2 = Calendar.getInstance();
-        c1.set(Integer.parseInt(args[2]) - 1970, Integer.parseInt(args[3]), Integer.parseInt(args[4]));
-        c2.set(Integer.parseInt(args[5]) - 1970, Integer.parseInt(args[6]), Integer.parseInt(args[7]));
+        c1.set(Integer.parseInt(args[2]), Integer.parseInt(args[3])-1, Integer.parseInt(args[4]));
+        c2.set(Integer.parseInt(args[5]), Integer.parseInt(args[6])-1, Integer.parseInt(args[7]));
         java.util.Date d1 = c1.getTime();
         java.util.Date d2 = c2.getTime();
 
