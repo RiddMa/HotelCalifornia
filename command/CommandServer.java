@@ -217,7 +217,9 @@ public class CommandServer extends Command {
 }
 
 /**
- * 订单列
+ * 订单列，使用时要add订单
+ *
+ * @author Travis
  */
 class Reservations {
     ArrayList<Reservation> rsvnList;
@@ -228,6 +230,7 @@ class Reservations {
 
     /**
      * 增加订单到订单列
+     *
      * @param r 订单
      */
     void add(Reservation r) {
@@ -236,7 +239,8 @@ class Reservations {
 
     /**
      * 向客户端传送所需字符串
-     * @param ts
+     *
+     * @param ts TransportServer类
      */
     void transport(TransportServer ts) {
         if (rsvnList == null) return;
