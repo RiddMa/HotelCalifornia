@@ -1,5 +1,7 @@
 package command;
 
+import com.mysql.cj.protocol.Resultset;
+
 import javax.xml.crypto.Data;
 import java.sql.*;
 import java.sql.Date;
@@ -217,5 +219,26 @@ public class Database {
         return n;
     }
 
-    public int
+    public int ADD_ROOM() {
+        int n = 0, roomId = 0;
+        try (PreparedStatement ps = conn.prepareStatement("SELECT room_id FROM rooms")) {
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    roomId = rs.getInt(1);
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        try (PreparedStatement ps = conn.prepareStatement("INSERT INTO rooms (room_id,room_capacity,room_price) VALUES (?,?,?)")) {
+            ps.setObject(1, roomId+1);
+            ps.setObject(2, 1);
+            ps.setObject(3, 100);
+            n = ps.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return n;
+    }
+
 }
