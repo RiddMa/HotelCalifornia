@@ -8,15 +8,14 @@ import java.util.List;
  *
  * @author Travis
  */
-public class Command implements java.io.Serializable{
+public class Command implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
     public String command;
     protected String[] args;
     private static final List<String> commandset = Arrays.asList("LOGIN", "LOGOUT", "RESERVEROOM", "CREATE",
             "SHOWRESERVATION", "ADDROOM", "SHOWRESERVATIONS", "CREATEADMIN", "DELETE");
     private static final List<String> defaultCommand = Arrays.asList("LOGIN");
-    private static final List<String> userCommand = Arrays.asList("LOGOUT", "RESERVEROOM", "CREATE",
-            "SHOWRESERVATION");
+    private static final List<String> userCommand = Arrays.asList("LOGOUT", "RESERVEROOM", "CREATE", "SHOWRESERVATION");
     private static final List<String> adminCommand = Arrays.asList("LOGOUT", "ADDROOM", "SHOWRESERVATIONS");
     private static final List<String> superadminCommand = Arrays.asList("LOGOUT", "CREATEADMIN", "DELETE");
 
@@ -54,9 +53,9 @@ public class Command implements java.io.Serializable{
      */
     public boolean isFitType(String type) {
         boolean flag = false;
-        switch (args[0]) {
+        switch (type) {
             case "default":
-                flag = (type.equals(defaultCommand.get(0)));
+                flag = defaultCommand.contains(args[0]);
                 break;
             case "user":
                 flag = userCommand.contains(args[0]);

@@ -14,6 +14,7 @@ public class Client {
      *         System.out.println("formatDate3: " + String fo);
      */
     public static void main(String[] arg) {
+        //TransportClient tc = new TransportClient("10.122.238.116",8088);
         TransportClient tc = new TransportClient();
         CommandClient cc = new CommandClient("null", tc);
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));//接收命令行命令
