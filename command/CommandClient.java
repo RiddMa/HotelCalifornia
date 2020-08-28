@@ -120,13 +120,20 @@ public class CommandClient extends Command {
         }
         tc.transport(command + " " + id + " " + userName + "\n");
         str = tc.accept();
-        if(str.equals("failed")) return false;
-        else if(str.equals("no enough rooms")) return false;
+        if(str.equals("failed")) {
+            Time.print("预约失败");
+            return false;
+        }
+        else if(str.equals("no enough rooms")) {
+            Time.print("房间已满，预约失败");
+            return false;
+        }
         else{
             System.out.println("> " + str);
             while (!(str = tc.accept()).equals("#")) {
                 System.out.println("> " + str);
             }
+            Time.print("预约成功，请按时入住");
             return true;
         }
     }

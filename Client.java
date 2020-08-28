@@ -28,13 +28,13 @@ public class Client {
                             Time.print("登录成功");
                             switch (cc.getType()) {
                                 case "user":
-                                    Time.print("你可以进行以下操作：\n" + "注销：logout\n" + "预定房间：reserveRoom\n" + "显示个人预定信息：showReservation");
+                                    System.out.println("你可以进行以下操作：\n" + "注销：logout\n" + "预定房间：reserveRoom\n" + "显示个人预定信息：showReservation");
                                     break;
                                 case "admin":
-                                    Time.print("你可以进行以下操作：\n" + "注销：logout\n" + "预定房间：reserveRoom\n" + "显示个人预定信息：showReservation\n" + "添加旅馆房间信息：addRoom\n" + "查看所有的预定信息：showReservations");
+                                    System.out.println("你可以进行以下操作：\n" + "注销：logout\n" + "预定房间：reserveRoom\n" + "显示个人预定信息：showReservation\n" + "添加旅馆房间信息：addRoom\n" + "查看所有的预定信息：showReservations");
                                     break;
                                 case "superadmin":
-                                    Time.print("你可以进行以下操作：\n" + "注销：logout\n" + "预定房间：reserveRoom\n" + "显示个人预定信息：showReservation\n" + "添加旅馆房间信息：addRoom\n" + "查看所有的预定信息：showReservations\n" + "创建管理员：createAdmin\n" + "删除管理员：delete");
+                                    System.out.println("你可以进行以下操作：\n" + "注销：logout\n" + "预定房间：reserveRoom\n" + "显示个人预定信息：showReservation\n" + "添加旅馆房间信息：addRoom\n" + "查看所有的预定信息：showReservations\n" + "创建管理员：createAdmin\n" + "删除管理员：delete");
                                     break;
                             }
                         } else {
@@ -43,17 +43,13 @@ public class Client {
                         break;
                     case "LOGOUT":
                         if (cc.parse(str)) {
-                            Time.print("已登出");
+                            Time.print("已登出,请重新登录");
                         } else {
                             Time.print("登出失败");
                         }
                         break;
                     case "RESERVEROOM":
-                        if (cc.parse(str)) {
-                            Time.print("预约成功，请按时入住");
-                        } else {
-                            Time.print("房间已满，预约失败");
-                        }
+                        cc.parse(str);
                         break;
                     case "SHOWRESERVATIONS":
                         cc.parse(str);
