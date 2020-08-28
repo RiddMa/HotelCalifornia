@@ -11,8 +11,8 @@ public class Client {
     private static String[] args;
 
     public static void main(String[] arg) {
-        //TransportClient tc = new TransportClient("10.122.238.116",8088);
-        TransportClient tc = new TransportClient();
+        TransportClient tc = new TransportClient("10.122.238.116",8088);
+        //TransportClient tc = new TransportClient();
         CommandClient cc = new CommandClient("null", tc);
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));//接收命令行命令
         Time.print("请输入用户名和密码：" + "（新用户请先进行注册：create）");

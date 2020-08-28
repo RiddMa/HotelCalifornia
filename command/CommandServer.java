@@ -301,7 +301,6 @@ class Reservation {
     }
 
     public void transport(TransportServer ts) {
-        ts.transport("--------------------------------------------------------------\n");
         ts.transport("订单号:" + orderId + " 预定旅客名:" + usrName + " 预定人数:" + num + "\n");
         ts.transport("预定入住日期:" + startDate + "预定退房日期:" + endDate + "\n");
         ts.transport("预定房间号：" + roomIdList + "\n");
