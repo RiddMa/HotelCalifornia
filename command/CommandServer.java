@@ -40,10 +40,9 @@ public class CommandServer extends Command {
     }
 
     private void delete() {
-        if(db.DELETE_USER(args[1])==1){
+        if (db.DELETE_USER(args[1]) == 1) {
             ts.transport("success\n");
-        }
-        else{
+        } else {
             ts.transport("failed\n");
         }
     }
@@ -256,7 +255,10 @@ class Reservations {
      * @param ts TransportServer类
      */
     void transport(TransportServer ts) {
-        if (rsvnList.size() == 0) return;
+        if (rsvnList.size() == 0) {
+            ts.transport("#\n");
+            return;
+        }
         Reservation reservation = rsvnList.get(0);//取第一个reservation
         int tempOrderID = reservation.orderId;//取第一个orderId
         for (Reservation rsvn : rsvnList) {//遍历
