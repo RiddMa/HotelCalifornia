@@ -158,7 +158,7 @@ public class Database {
     public ArrayList<Integer> GET_FREEROOM(Date usrStartDate, Date usrEndDate) {
         int roomId = -1;
         try (PreparedStatement ps = conn.prepareStatement("SELECT room_id FROM rooms WHERE room_id NOT IN " +
-                "(SELECT room_id FROM reservations WHERE start_date<? OR end_date>?)")) {
+                "(SELECT room_id FROM reservations WHERE start_date<? AND end_date>?)")) {
             ps.setObject(1, usrEndDate);
             ps.setObject(2, usrStartDate);
             try (ResultSet rs = ps.executeQuery()) {

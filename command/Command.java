@@ -79,7 +79,7 @@ public class Command implements java.io.Serializable {
     public static void main(String[] args) {
         Command a = new Command("login b c");
         Command b = new Command("loGout  b c");
-        System.out.println("a->" + a.isLegal());
-        System.out.println("b->" + b.isLegal());
+        Time.print("a->" + a.isLegal());
+        Time.print("b->" + b.isLegal());
     }
 }

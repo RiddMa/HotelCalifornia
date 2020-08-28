@@ -1,5 +1,7 @@
 package Transport;
 
+import command.Time;
+
 import java.io.*;
 import java.net.Socket;
 
@@ -40,7 +42,7 @@ public class TransportClient extends TransportLevel{
             return br.readLine();
         } catch (IOException e) {
             //e.printStackTrace();
-            System.out.println("客户端:已失去连接");
+            Time.print("客户端:已失去连接");
             return null;
         }
     }

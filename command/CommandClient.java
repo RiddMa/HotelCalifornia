@@ -33,11 +33,11 @@ public class CommandClient extends Command {
     public boolean parse(String str) {
         setArgs(str);
         if(!isLegal()) {
-            System.out.println("WRONG COMMAND");
+            Time.print("WRONG COMMAND");
             return false;
         }//命令名不合法则直接返回false
         if(!isFitType(type)) {
-            System.out.println("WRONG type");
+            Time.print("WRONG type");
             return false;
         }
         switch (args[0]) {
@@ -78,7 +78,7 @@ public class CommandClient extends Command {
         //TODO: 需要增加用户名的正则检查
         //String pattern = "^[^0-9][\\w_]{5,9}$";
         if (args.length != 3) {
-            System.out.println("WRONG PARAMETER");
+            Time.print("WRONG PARAMETER");
             return false;
         }
         tc.transport(command + "\n");
@@ -115,7 +115,7 @@ public class CommandClient extends Command {
     boolean reserveRoom() {
         String str;
         if(args.length != 8) {
-            System.out.println("WRONG PARAMETER");
+            Time.print("WRONG PARAMETER");
             return false;
         }
         tc.transport(command + " " + id + " " + userName + "\n");
@@ -149,7 +149,7 @@ public class CommandClient extends Command {
      */
     boolean addRoom() {
         if (args.length != 2) {
-            System.out.println("WRONG PARAMETER");
+            Time.print("WRONG PARAMETER");
             return false;
         }
         tc.transport(command + "\n");
@@ -172,7 +172,7 @@ public class CommandClient extends Command {
      */
     boolean createAdmin() {
         if (args.length != 3) {
-            System.out.println("WRONG PARAMETER");
+            Time.print("WRONG PARAMETER");
             return false;
         }
         tc.transport(command + "\n");
@@ -186,7 +186,7 @@ public class CommandClient extends Command {
      */
     boolean delete() {
         if (args.length != 2) {
-            System.out.println("WRONG PARAMETER");
+            Time.print("WRONG PARAMETER");
             return false;
         }
         tc.transport(command + "\n");
@@ -200,7 +200,7 @@ public class CommandClient extends Command {
      */
     boolean create() {
         if (args.length != 3) {
-            System.out.println("WRONG PARAMETER");
+            Time.print("WRONG PARAMETER");
             return false;
         }
         tc.transport(command + "\n");

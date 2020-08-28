@@ -1,5 +1,7 @@
 package Transport;
 
+import command.Time;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -19,9 +21,9 @@ public class TransportServer extends TransportLevel {
     public TransportServer(int port) {
         try {
             ss = new ServerSocket(port);
-            System.out.println("启动服务器....端口号:" + port);
+            Time.print("启动服务器....端口号:" + port);
             socketAccept();
-            //System.out.println("本机" + addrHost + "已上线");
+            //Time.print("本机" + addrHost + "已上线");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -49,7 +51,7 @@ public class TransportServer extends TransportLevel {
 
             addrClient = accept();
 
-            System.out.println("客户端" + addrClient + "已连接");
+            Time.print("客户端" + addrClient + "已连接");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -65,7 +67,7 @@ public class TransportServer extends TransportLevel {
             return br.readLine();
         } catch (IOException e) {
             //e.printStackTrace();
-            System.out.println("客户端:" + addrClient + "已失去连接");
+            Time.print("客户端:" + addrClient + "已失去连接");
             return null;
         }
     }

@@ -35,7 +35,7 @@ public class CommandServer extends Command {
             case "ADDROOM" -> addRoom();
             case "DELETE" -> delete();
             case "CREATE" -> create();
-            default -> System.out.println("unknown command:" + command + ".");
+            default -> Time.print("unknown command:" + command + ".");
         }
     }
 

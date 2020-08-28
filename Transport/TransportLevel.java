@@ -1,5 +1,7 @@
 package Transport;
 
+import command.Time;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.Calendar;
@@ -30,11 +32,10 @@ public abstract class TransportLevel {
      * @param str
      */
     public void transport(String str) {
-        String formatDate = TransportServer.timeStampToFormatDate(Calendar.getInstance().getTime(), "yyyy-MM-dd HH:mm:ss");
         // TODO
         try {
             if (str.equals("success")) {
-                System.out.println(formatDate + "\n" + "命令已完成");
+                Time.print("命令已完成");
             }
             bw.write(str);
             bw.flush();
@@ -87,12 +88,5 @@ public abstract class TransportLevel {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public static String timeStampToFormatDate(Object dateObj, String pattern) {
-        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
-        String formatDate = sdf.format(dateObj);
-        return formatDate;
-
     }
 }
