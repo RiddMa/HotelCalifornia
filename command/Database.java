@@ -220,21 +220,32 @@ public class Database {
         return n;
     }
 
-    public int ADD_ROOM() {
-        int n = 0, roomId = 0;
-        try (PreparedStatement ps = conn.prepareStatement("SELECT room_id FROM rooms")) {
+    /**
+     * 增加房间
+     *
+     * @param room     增加的房间号
+     * @param capacity 房间容量
+     * @param price    房间价格
+     * @return n -1:已经有这个房间了 0：数据库出错 1：成功
+     */
+    public int ADD_ROOM(int room, int capacity, int price) {
+        int n = 0;
+        try (PreparedStatement ps = conn.prepareStatement("SELECT room_id FROM rooms WHERE room_id = ?")) {
+            ps.setObject(1, room);
             try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    roomId = rs.getInt(1);
-                }
+                /*while (rs.next()) {
+                    if(room == rs.getInt(1)) return -1;
+                }*/
+                /*如果rs为空则没有重复房间号,不为空则有*/
+                if(rs.next()) return -1;
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         try (PreparedStatement ps = conn.prepareStatement("INSERT INTO rooms (room_id,room_capacity,room_price) VALUES (?,?,?)")) {
-            ps.setObject(1, roomId+1);
-            ps.setObject(2, 1);
-            ps.setObject(3, 100);
+            ps.setObject(1, room);
+            ps.setObject(2, capacity);
+            ps.setObject(3, price);
             n = ps.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
