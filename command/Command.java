@@ -61,13 +61,10 @@ public class Command implements java.io.Serializable {
                 flag = userCommand.contains(args[0]);
                 break;
             case "admin":
-                flag = userCommand.contains(args[0]);
-                flag = flag||adminCommand.contains(args[0]);
+                flag = adminCommand.contains(args[0]);
                 break;
             case "superadmin":
-                flag = userCommand.contains(args[0]);
-                flag = flag||adminCommand.contains(args[0]);
-                flag = flag||superadminCommand.contains(args[0]);
+                flag = superadminCommand.contains(args[0]);
                 break;
         }
         return flag;
