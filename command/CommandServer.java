@@ -155,6 +155,7 @@ public class CommandServer extends Command {
         Date startDate = new Date(d1.getTime());
         Date endDate = new Date(d2.getTime());
         int usrId = Integer.parseInt(args[8]);
+        String usrName = args[9];
         int num = Integer.parseInt(args[1]);
         int rsvnId = 0;
         int freeRoomNumber = 0;//空余房间数量
@@ -185,7 +186,7 @@ public class CommandServer extends Command {
         //订单号xxx 预定旅客名xxx  预定人数 x 预定入住日期 x x x(年月日)
         //预定退房日期 x x x 预定房间号 xxx xxx … xxx （每个xxx表示一个被预定房间的房间号）
         ts.transport("--------------------------------------------------------------\n");
-        ts.transport("订单号：" + db.orderId + " 预定旅客名：" + "usrName" + "预定人数：" + num + "\n");
+        ts.transport("订单号：" + db.orderId + " 预定旅客名：" + usrName + "预定人数：" + num + "\n");
         ts.transport("预定入住日期" + startDate + "预定退房日期" + endDate + "\n");
         ts.transport("预定房间号：" + roomId + "\n");
         ts.transport("==============================================================\n");
@@ -264,6 +265,7 @@ class Reservations {
                 tempOrderID = rsvn.orderId;
                 reservation = rsvn;
             }
+            reservation.num++;//人数++
             reservation.roomIdList.add(rsvn.roomId);
         }
         reservation.transport(ts);
@@ -276,8 +278,8 @@ class Reservations {
  */
 class Reservation {
     String usrName;
-    int usrId;
-    int num;
+    int usrId;//用户id
+    int num;//人数
     int rsvnId;
     Date startDate, endDate;
     int roomId;

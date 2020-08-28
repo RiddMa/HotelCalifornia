@@ -118,7 +118,7 @@ public class CommandClient extends Command {
             System.out.println("WRONG PARAMETER");
             return false;
         }
-        tc.transport(command + " " + id + "\n");
+        tc.transport(command + " " + id + " " + userName + "\n");
         str = tc.accept();
         if(str.equals("failed")) return false;
         else if(str.equals("no enough rooms")) return false;
