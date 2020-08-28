@@ -15,7 +15,7 @@ public class Database {
     String JDBC_PASSWORD = "123456";
     Connection conn;
     ResultSet resultset;
-    int orderId = 1;
+    int orderId = 0;
 
 
     public Database() {
@@ -30,6 +30,7 @@ public class Database {
                     }
                 }
             }
+            orderId++;//获取到最大的orderId，下一个orderId需要+1
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
