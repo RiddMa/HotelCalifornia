@@ -256,7 +256,7 @@ class Reservations {
      * @param ts TransportServer类
      */
     void transport(TransportServer ts) {
-        if (rsvnList == null) return;
+        if (rsvnList.size() == 0) return;
         Reservation reservation = rsvnList.get(0);//取第一个reservation
         int tempOrderID = reservation.orderId;//取第一个orderId
         for (Reservation rsvn : rsvnList) {//遍历
