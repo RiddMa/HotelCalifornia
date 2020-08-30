@@ -51,6 +51,7 @@ public class TransportServer extends TransportLevel {
 
             addrClient = accept();
 
+            Time.print("本机" + addrHost + "已上线");
             Time.print("客户端" + addrClient + "已连接");
         } catch (IOException e) {
             e.printStackTrace();
