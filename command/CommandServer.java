@@ -48,9 +48,9 @@ public class CommandServer extends Command {
     }
 
     private void addRoom() {
-
-        //成功则向客户端发送“success\n”
-        ts.transport("success\n");
+        int flag = db.ADD_ROOM(Integer.parseInt(args[1]),1,100);
+        if(flag == 1) ts.transport("success\n");//成功则向客户端发送“success\n”
+        else ts.transport("failed\n");
     }
 
     private void createAdmin() {
@@ -256,7 +256,7 @@ class Reservations {
      */
     void transport(TransportServer ts) {
         if (rsvnList.size() == 0) {
-            ts.transport("#\n");
+            ts.transport("没有信息\n#\n");
             return;
         }
         Reservation reservation = rsvnList.get(0);//取第一个reservation
