@@ -14,8 +14,8 @@ public class Command implements java.io.Serializable {
     protected String[] args;
     private static final List<String> commandset = Arrays.asList("LOGIN", "LOGOUT", "RESERVEROOM", "CREATE",
             "SHOWRESERVATION", "ADDROOM", "SHOWRESERVATIONS", "CREATEADMIN", "DELETE");
-    private static final List<String> defaultCommand = Arrays.asList("LOGIN");
-    private static final List<String> userCommand = Arrays.asList("LOGOUT", "RESERVEROOM", "CREATE", "SHOWRESERVATION");
+    private static final List<String> defaultCommand = Arrays.asList("LOGIN", "CREATE");
+    private static final List<String> userCommand = Arrays.asList("LOGOUT", "RESERVEROOM", "SHOWRESERVATION");
     private static final List<String> adminCommand = Arrays.asList("LOGOUT", "ADDROOM", "SHOWRESERVATIONS");
     private static final List<String> superadminCommand = Arrays.asList("LOGOUT", "CREATEADMIN", "DELETE");
 
