@@ -34,9 +34,6 @@ public abstract class TransportLevel {
     public void transport(String str) {
         // TODO
         try {
-            if (str.equals("success")) {
-                Time.print("命令已完成");
-            }
             bw.write(str);
             bw.flush();
         } catch (IOException e) {

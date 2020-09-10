@@ -42,7 +42,6 @@ public class TransportClient extends TransportLevel{
             return br.readLine();
         } catch (IOException e) {
             //e.printStackTrace();
-            Time.print("客户端:已失去连接");
             return null;
         }
     }

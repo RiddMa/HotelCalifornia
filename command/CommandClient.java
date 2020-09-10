@@ -5,6 +5,9 @@ import Transport.TransportClient;
 import java.util.Arrays;
 import java.util.List;
 
+import static command.Time.printFAIL;
+import static command.Time.printOK;
+
 /**
  * 用于接收用户端的命令，并传输到传输层
  * 客户端使用时需要先建立TransportClient实例，再将其作为参数建立CommandClient实例
@@ -33,11 +36,11 @@ public class CommandClient extends Command {
     public boolean parse(String str) {
         setArgs(str);
         if(!isLegal()) {
-            Time.print("WRONG COMMAND");
+            System.out.println("WRONG COMMAND");
             return false;
         }//命令名不合法则直接返回false
         if(!isFitType(type)) {
-            Time.print("WRONG type");
+            System.out.println("WRONG type");
             return false;
         }
         switch (args[0]) {
@@ -78,7 +81,7 @@ public class CommandClient extends Command {
         //TODO: 需要增加用户名的正则检查
         //String pattern = "^[^0-9][\\w_]{5,9}$";
         if (args.length != 3) {
-            Time.print("WRONG PARAMETER");
+            System.out.println("WRONG PARAMETER");
             return false;
         }
         tc.transport(command + "\n");
@@ -87,9 +90,13 @@ public class CommandClient extends Command {
         if(typeList.contains(str)){
             type = str;
             userName = args[1];
+            printOK();
             return true;
         }
-        else return false;
+        else {
+            printFAIL();
+            return false;
+        }
     }
 
     /**
@@ -102,8 +109,12 @@ public class CommandClient extends Command {
 
         if(tc.accept().equals("success")){
             type = "default";
+            printOK();
             return true;
-        }else return false;
+        }else {
+            printFAIL();
+            return false;
+        }
     }
 
     /**
@@ -115,26 +126,25 @@ public class CommandClient extends Command {
     boolean reserveRoom() {
         String str;
         if(args.length != 8) {
-            Time.print("WRONG PARAMETER");
+            System.out.println("WRONG PARAMETER");
             return false;
         }
         tc.transport(command + " " + id + " " + userName + "\n");
         str = tc.accept();
         if(str.equals("failed")) {
-            Time.print("预约失败");
+            printFAIL();
             return false;
         }
         else if(str.equals("no enough rooms")) {
-            Time.print("房间已满，预约失败");
+            printFAIL();
             return false;
         }
         else{
-            System.out.println("==============================================================\n");
-            System.out.println("> " + str);
+            System.out.println(str);
             while (!(str = tc.accept()).equals("#")) {
-                System.out.println("> " + str);
+                System.out.println(str);
             }
-            Time.print("预约成功，请按时入住");
+            printOK();
             return true;
         }
     }
@@ -145,9 +155,8 @@ public class CommandClient extends Command {
     void showReservation() {
         String str;
         tc.transport(command + " " + id + "\n");
-        System.out.println("==============================================================\n");
         while (!(str = tc.accept()).equals("#")) {
-            System.out.println("> " + str);
+            System.out.println(str);
         }
     }
 
@@ -158,10 +167,14 @@ public class CommandClient extends Command {
      */
     boolean addRoom() {
         if (args.length != 2) {
-            Time.print("WRONG PARAMETER");
+            System.out.println("WRONG PARAMETER");
             return false;
         }
         tc.transport(command + "\n");
+        if(tc.accept().equals("success")){
+            printOK();
+        }
+        else printFAIL();
         return tc.accept().equals("success");
     }
 
@@ -171,9 +184,8 @@ public class CommandClient extends Command {
     void showReservations() {
         String str;
         tc.transport(command + "\n");
-        System.out.println("==============================================================\n");
         while (!(str = tc.accept()).equals("#")) {
-            System.out.println("> " + str);
+            System.out.println(str);
         }
     }
 
@@ -186,6 +198,10 @@ public class CommandClient extends Command {
             return false;
         }
         tc.transport(command + "\n");
+        if(tc.accept().equals("success")){
+            printOK();
+        }
+        else printFAIL();
         return tc.accept().equals("success");
     }
 
@@ -200,6 +216,10 @@ public class CommandClient extends Command {
             return false;
         }
         tc.transport(command + "\n");
+        if(tc.accept().equals("success")){
+            printOK();
+        }
+        else printFAIL();
         return tc.accept().equals("success");
     }
 
@@ -214,6 +234,10 @@ public class CommandClient extends Command {
             return false;
         }
         tc.transport(command + "\n");
+        if(tc.accept().equals("success")){
+            printOK();
+        }
+        else printFAIL();
         return tc.accept().equals("success");
     }
 
